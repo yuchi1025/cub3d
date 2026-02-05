@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:03:05 by yucchen           #+#    #+#             */
-/*   Updated: 2026/02/03 11:19:40 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/02/04 16:35:26 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 # define CUB3D_H
 
 # include "./minilibx-linux/mlx.h"
-# include <unistd.h>
+# include <fcntl.h>
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:16:01 by yucchen           #+#    #+#             */
-/*   Updated: 2026/02/12 18:51:34 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/02/13 17:15:46 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,13 +80,14 @@ void	read_file(const char *path, t_map_info *map_info, char **storage)
 		printf("Error: Malloc failed\n");
 		return ;
 	}
-	while (i < map_info->file_height)
+	next_line = get_next_line(fd, storage);
+	while (next_line)
 	{
-		next_line = get_next_line(fd, storage);
 		len = ft_strlen(next_line);
 		if (len > 0 && next_line[len - 1] == '\n')
 			next_line[len - 1] = '\0';
 		map_info->lines[i] = next_line;
+		next_line = get_next_line(fd, storage);
 		i++;
 	}
 	map_info->lines[i] = NULL;
@@ -169,6 +170,23 @@ int	check_texture(char *id, char *path, t_map_info *map_info)
 	return (1);
 }
 
+void	free_split(char **array)
+{
+	int	cnt;
+	int i;
+
+	cnt = 0;
+	i = 0;
+	while (array[cnt])
+		cnt++;
+	while (i < cnt)
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array);
+}
+
 int	is_number_in_range(const char *str)
 {
 	int	i;
@@ -216,14 +234,19 @@ int	check_color(char *id, char *colors, t_map_info *map_info)
 	while (color[n])
 	{
 		if (!is_number_in_range(color[n]))
+		{
+			free_split(color);
 			return (0);
+		}
 		n++;
 	}
 	if (n != 3)
 	{
 		printf("Only accept 3 numbers\n");
+		free_split(color);
 		return (0);
 	}
+	free_split(color);
 	return (1);
 }
 
@@ -245,24 +268,35 @@ int	check_element(char *line, t_map_info *map_info)
 	if (n != 2)
 	{
 		printf("Only accept 2 tokens\n");
+		free_split(token);
 		return (0);
 	}
 	id = token[0];
 	if (ft_strlen(id) == 2)
 	{
 		if (!check_texture(id, token[1], map_info))
+		{
+			free_split(token);
 			return (0);
+		}
 	}
 	else if (ft_strlen(id) == 1)
 	{
 		if (!check_color(id, token[1], map_info))
+		{
+			free_split(token);
 			return (0);
+		}
 	}
 	else
 	{
 		printf("Invalid id: %s\n", id);
+		{
+			free_split(token);
 			return (0);
+		}
 	}
+	free_split(token);
 	return (1);
 }
 
@@ -276,6 +310,20 @@ int	contain_map_tile(char *line)
 	{
 		if (line[i] == '1' || line[i] == '0' || line[i] == 'N'
 				|| line[i] == 'S' || line[i] == 'E' || line[i] == 'W')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int	contain_tile_zero(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == '0')
 			return (1);
 		i++;
 	}
@@ -324,9 +372,15 @@ int	split_config_and_map(t_map_info *map_info)
 			{
 				map_info->map_start = i;
 				mode = "map";
+				// Check if the first row contains any `0` -> fail
+				if (contain_tile_zero(line))
+				{
+					printf("Invalid top line: %s\n", line);
+						return (0);
+				}
 				if (!is_map_charset_only(line))
 				{
-					printf("Invalid map line: %s\n", line);
+					printf("Invalid top line: %s\n", line);
 						return (0);
 				}
 			}
@@ -389,7 +443,7 @@ int	is_valid_element_count(t_map_info *map_info)
 }
 
 // Step 5 - Collect map lines
-void	store_map_lines(t_map_info *map_info)
+int	store_map_lines(t_map_info *map_info)
 {
 	int i;
 	int j;
@@ -399,7 +453,7 @@ void	store_map_lines(t_map_info *map_info)
 	if (!map_info->map_lines)
 	{
 		printf("Error: Malloc failed\n");
-		return ;
+		return (0);
 	}
 	i = 0;
 	j = map_info->map_start;
@@ -410,11 +464,18 @@ void	store_map_lines(t_map_info *map_info)
 		j++;
 	}
 	map_info->map_lines[i] = NULL;
+	// Check if the last row contains any `0` -> fail
+	if (contain_tile_zero(map_info->map_lines[map_info->map_height - 1]))
+	{
+		printf("Invalid bottom line: %s\n", map_info->map_lines[map_info->map_height - 1]);
+		return (0);
+	}
 	printf("map_height: %d\n", map_info->map_height);
+	return (1);
 }
 
 // Step 6 - Compute map dimensions
-void	compute_map_width(t_map_info *map_info)
+int	compute_map_width(t_map_info *map_info)
 {
 	int	i;
 	int	line_width;
@@ -423,11 +484,25 @@ void	compute_map_width(t_map_info *map_info)
     while (i < map_info->map_height)
     {
 		line_width = ft_strlen(map_info->map_lines[i]);
+		printf("map_lines[%d]:%s(len: %d)\n", i, map_info->map_lines[i], line_width);
+		// Check if the first column contains any `0` -> fail
+		if (map_info->map_lines[i][0] == '0')
+		{
+			printf("Invalid left column\n");
+			return (0);
+		}
+		// Check if the last column contains any `0` -> fail
+		if (map_info->map_lines[i][line_width - 1] == '0')
+		{
+			printf("Invalid right column\n");
+			return (0);
+		}
 		if (line_width > map_info->map_width)
 			map_info->map_width = line_width;
     	i++;
     }
 	printf("map width: %d\n", map_info->map_width);
+	return (1);
 }
 
 // Step 7 - Normalize map
@@ -475,13 +550,6 @@ void	create_map(t_map_info *map_info)
 		i++;
 	}
 	map_info->norm_map[map_info->map_height] = NULL;
-	//i = 0;
-    //while (i < map_info->map_height)
-    //{
-	//	int line_width = ft_strlen(map_info->norm_map[i]);
-    //	printf("norm_map[%d]:%s(len: %d)\n", i, map_info->norm_map[i], line_width);
-    //	i++;
-    //}
 }
 
 void	fill_map(t_map_info *map_info)
@@ -500,9 +568,8 @@ void	fill_map(t_map_info *map_info)
 			(map_info->norm_map)[i][j] = (map_info->map_lines)[i][j];
 			j++;
 		}
-
-		line_width = ft_strlen(map_info->norm_map[i]);
-		printf("norm_map[%d]:%s(len: %d)\n", i, map_info->norm_map[i], line_width);
+		//line_width = ft_strlen(map_info->norm_map[i]);
+		//printf("norm_map[%d]:%s(len: %d)\n", i, map_info->norm_map[i], line_width);
     	i++;
     }
 }
@@ -521,7 +588,8 @@ int	check_player(t_map_info *map_info)
 		j = 0;
 		while (j < map_info->map_width)
 		{
-			if (map_info->norm_map[i][j] == 'N' || map_info->norm_map[i][j] == 'S' || map_info->norm_map[i][j] == 'E' || map_info->norm_map[i][j] == 'W')
+			if (map_info->norm_map[i][j] == 'N' || map_info->norm_map[i][j] == 'S'
+				|| map_info->norm_map[i][j] == 'E' || map_info->norm_map[i][j] == 'W')
 			{
 				if (find_player != 0)
 				{
@@ -570,8 +638,10 @@ int	main(int argc, char **argv)
 			return (1);
 		if (!is_valid_element_count(&map_info))
 			return (1);
-		store_map_lines(&map_info);
-		compute_map_width(&map_info);
+		if (!store_map_lines(&map_info))
+			return (1);
+		if (!compute_map_width(&map_info))
+			return (1);
 		create_map(&map_info);
 		fill_map(&map_info);
 		if (!check_player(&map_info))

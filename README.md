@@ -69,8 +69,14 @@ If any step fails, the program exits.
 
 ### Step 9 - Map validation
 - Ensure the map is closed by walls
-	- If the first row contains any `0` -> fail (Step 3)
-	- If the last row contains any `0` -> fail (Step 5)
-	- If the first column contains any `0` -> fail (Step 6)
-	- If the last column contains any `0` -> fail (Step 6)
+	- Border checks
+		- If the top row contains any `0`, `N`, `S`, `E`, `W` -> fail (Step 3)
+		- If the bottom row contains any `0`, `N`, `S`, `E`, `W` -> fail (Step 5)
+		- If the first column contains any `0`, `N`, `S`, `E`, `W` -> fail (Step 6)
+		- If the last column contains any `0`, `N`, `S`, `E`, `W` -> fail (Step 6)
 	- For every '0', check 4 neighbors != ' '
+		- (x, y)
+		- up (x, y - 1)
+		- down (x, y + 1)
+		- left (x - 1, y)
+		- right (x + 1, y)

@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:16:01 by yucchen           #+#    #+#             */
-/*   Updated: 2026/02/13 17:15:46 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/02/14 19:06:32 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	check_file_height(const char *path, t_map_info *map_info, char **storage)
 	close(fd);
 	if (map_info->file_height == 0)
 		return (printf("Error: Empty file\n"), 0);
+	printf("file_height: %d\n", map_info->file_height);
 	return (1);
 }
 
@@ -145,7 +146,7 @@ int	ft_strcmp(const char *s1, const char *s2)
 
 int	check_texture(char *id, char *path, t_map_info *map_info)
 {
-	int	fd;
+	//int	fd;
 
 	if (ft_strcmp(id, "NO") == 0)
 		(map_info->no_cnt)++;
@@ -160,7 +161,8 @@ int	check_texture(char *id, char *path, t_map_info *map_info)
 		printf("Invalid id: %s\n", id);
 			return (0);
 	}
-	fd = open(path, O_RDONLY);
+	printf("path: %s\n", path);
+	//fd = open(path, O_RDONLY);
 	//if (fd == -1)
 	//{
 	//	perror("open error");
@@ -238,6 +240,7 @@ int	check_color(char *id, char *colors, t_map_info *map_info)
 			free_split(color);
 			return (0);
 		}
+		printf("color[%d]: %d\n", n, ft_atoi(color[n]));
 		n++;
 	}
 	if (n != 3)
@@ -316,14 +319,15 @@ int	contain_map_tile(char *line)
 	return (0);
 }
 
-int	contain_tile_zero(char *line)
+int	contain_open_tile(char *line)
 {
 	int	i;
 
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] == '0')
+		if (line[i] == '0' || line[i] == 'N' || line[i] == 'S'
+				|| line[i] == 'E' || line[i] == 'W')
 			return (1);
 		i++;
 	}
@@ -371,16 +375,17 @@ int	split_config_and_map(t_map_info *map_info)
 			else if (contain_map_tile(line))
 			{
 				map_info->map_start = i;
+				printf("map_start: %d\n", map_info->map_start);
 				mode = "map";
-				// Check if the first row contains any `0` -> fail
-				if (contain_tile_zero(line))
+				// Check if the top row contains any `0`, `N`, `S`, `E`, `W` -> fail
+				if (contain_open_tile(line))
 				{
-					printf("Invalid top line: %s\n", line);
+					printf("Invalid top row: %s\n", line);
 						return (0);
 				}
 				if (!is_map_charset_only(line))
 				{
-					printf("Invalid top line: %s\n", line);
+					printf("Invalid top row: %s\n", line);
 						return (0);
 				}
 			}
@@ -464,10 +469,10 @@ int	store_map_lines(t_map_info *map_info)
 		j++;
 	}
 	map_info->map_lines[i] = NULL;
-	// Check if the last row contains any `0` -> fail
-	if (contain_tile_zero(map_info->map_lines[map_info->map_height - 1]))
+	// Check if the bottom row contains any `0`, `N`, `S`, `E`, `W` -> fail
+	if (contain_open_tile(map_info->map_lines[map_info->map_height - 1]))
 	{
-		printf("Invalid bottom line: %s\n", map_info->map_lines[map_info->map_height - 1]);
+		printf("Invalid bottom row: %s\n", map_info->map_lines[map_info->map_height - 1]);
 		return (0);
 	}
 	printf("map_height: %d\n", map_info->map_height);
@@ -475,6 +480,13 @@ int	store_map_lines(t_map_info *map_info)
 }
 
 // Step 6 - Compute map dimensions
+int	is_open_tile(char c)
+{
+	if (c == '0' || c == 'N' || c == 'S'|| c == 'E' || c == 'W')
+		return (1);
+	return (0);
+}
+
 int	compute_map_width(t_map_info *map_info)
 {
 	int	i;
@@ -484,15 +496,15 @@ int	compute_map_width(t_map_info *map_info)
     while (i < map_info->map_height)
     {
 		line_width = ft_strlen(map_info->map_lines[i]);
-		printf("map_lines[%d]:%s(len: %d)\n", i, map_info->map_lines[i], line_width);
-		// Check if the first column contains any `0` -> fail
-		if (map_info->map_lines[i][0] == '0')
+		//printf("map_lines[%d]:%s(len: %d)\n", i, map_info->map_lines[i], line_width);
+		// Check if the first column contains any `0`, `N`, `S`, `E`, `W` -> fail
+		if (is_open_tile(map_info->map_lines[i][0]))
 		{
 			printf("Invalid left column\n");
 			return (0);
 		}
-		// Check if the last column contains any `0` -> fail
-		if (map_info->map_lines[i][line_width - 1] == '0')
+		// Check if the last column contains any `0`, `N`, `S`, `E`, `W` -> fail
+		if (is_open_tile(map_info->map_lines[i][line_width - 1]))
 		{
 			printf("Invalid right column\n");
 			return (0);
@@ -568,9 +580,11 @@ void	fill_map(t_map_info *map_info)
 			(map_info->norm_map)[i][j] = (map_info->map_lines)[i][j];
 			j++;
 		}
-		//line_width = ft_strlen(map_info->norm_map[i]);
-		//printf("norm_map[%d]:%s(len: %d)\n", i, map_info->norm_map[i], line_width);
-    	i++;
+
+		line_width = ft_strlen(map_info->norm_map[i]);
+		printf("norm_map[%d]:%s(len: %d)\n", i, map_info->norm_map[i], line_width);
+    	
+		i++;
     }
 }
 
@@ -612,14 +626,49 @@ int	check_player(t_map_info *map_info)
 		printf("No player\n");
 		return (0);
 	}
+	printf("Player(%f, %f):%c\n", map_info->player_x, map_info->player_y, map_info->player_dir);
 	return (1);
 }
 
 // Step 9 - Map validation
-//int	check_map(t_map_info *map_info)
-//{
-//	return (1);
-//}
+int	check_neighbors(t_map_info *map_info, int x, int y)
+{
+	if (y > 0 && map_info->norm_map[y - 1][x] == ' ')
+		return (0);
+	if (y + 1 < map_info->map_height && map_info->norm_map[y + 1][x] == ' ')
+		return (0);
+	if (x > 0 && map_info->norm_map[y][x - 1] == ' ')
+		return (0);
+	if (x + 1 < map_info->map_width && map_info->norm_map[y][x + 1] == ' ')
+		return (0);
+	return (1);
+}	
+
+int	check_map(t_map_info *map_info)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < map_info->map_height)
+	{
+		j = 0;
+		while (j < map_info->map_width)
+		{
+			if (map_info->norm_map[i][j] == '0')
+			{
+				if (!check_neighbors(map_info, j, i))
+				{
+					printf("Invalid map\n");
+					return (0);
+				}
+			}
+			j++;
+		}
+		i++;
+	}
+	return (1);
+}
 
 int	main(int argc, char **argv)
 {
@@ -646,8 +695,8 @@ int	main(int argc, char **argv)
 		fill_map(&map_info);
 		if (!check_player(&map_info))
 			return (1);
-		//if (!check_map(&map_info))
-		//	return (1);
+		if (!check_map(&map_info))
+			return (1);
 		return (0);
 	}
 	return (printf("Error: Expected exactly one map path\n"), 1);

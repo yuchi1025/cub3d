@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:03:05 by yucchen           #+#    #+#             */
-/*   Updated: 2026/02/12 18:51:47 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/02/14 18:40:56 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ typedef struct s_map_info
 	char	**map_lines;
 	int		map_width;
 	char	**norm_map;
-	int		player_x;
-	int		player_y;
-	int		player_dir;
+	float	player_x;
+	float	player_y;
+	char	player_dir;
 }			t_map_info;
 
 #endif

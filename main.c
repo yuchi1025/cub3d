@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:16:01 by yucchen           #+#    #+#             */
-/*   Updated: 2026/02/15 15:07:25 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/02/15 17:15:47 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,13 +149,29 @@ int	check_texture(char *id, char *path, t_map_info *map_info)
 	//int	fd;
 
 	if (ft_strcmp(id, "NO") == 0)
+	{
 		(map_info->no_cnt)++;
+		if (map_info->no_cnt == 1)
+			map_info->no_path = ft_strdup(path);
+	}
 	else if (ft_strcmp(id, "SO") == 0)
+	{
 		(map_info->so_cnt)++;
+		if (map_info->so_cnt == 1)
+			map_info->so_path = ft_strdup(path);
+	}
 	else if (ft_strcmp(id, "WE") == 0)
+	{
 		(map_info->we_cnt)++;
+		if (map_info->we_cnt == 1)
+			map_info->we_path = ft_strdup(path);
+	}	
 	else if (ft_strcmp(id, "EA") == 0)
+	{
 		(map_info->ea_cnt)++;
+		if (map_info->ea_cnt == 1)
+			map_info->ea_path = ft_strdup(path);
+	}
 	else
 	{
 		printf("Invalid id: %s\n", id);
@@ -216,6 +232,8 @@ int	check_color(char *id, char *colors, t_map_info *map_info)
 {
 	char	**color;
 	int 	n;
+	int		i;
+	int		comma_cnt;
 
 	if (ft_strcmp(id, "F") == 0)
 		(map_info->floor_cnt)++;
@@ -226,6 +244,16 @@ int	check_color(char *id, char *colors, t_map_info *map_info)
 		printf("Invalid id: %s\n", id);
 			return (0);
 	}
+	i = 0;
+	comma_cnt = 0;
+	while (colors[i])
+	{
+		if (colors[i] == ',')
+			comma_cnt++;
+		i++;
+	}
+	if (comma_cnt != 2)
+		return (printf("Error: Colors only accept 2 commas\n"), 0);
 	color = ft_split(colors, ',');
 	if (!color)
 	{
@@ -240,6 +268,10 @@ int	check_color(char *id, char *colors, t_map_info *map_info)
 			free_split(color);
 			return (0);
 		}
+		if (ft_strcmp(id, "F") == 0)
+			map_info->floor_color[n] = ft_atoi(color[n]);
+		else
+			map_info->ceil_color[n] = ft_atoi(color[n]);
 		printf("color[%d]: %d\n", n, ft_atoi(color[n]));
 		n++;
 	}
@@ -652,34 +684,45 @@ int	check_map(t_map_info *map_info)
 	return (1);
 }
 
+void	free_map_info(t_map_info *map_info)
+{
+	if (map_info->lines)
+		ft_free_array(map_info->lines, map_info->file_height);
+	if (map_info->map_lines)
+		free(map_info->map_lines);
+	if (map_info->norm_map)
+		ft_free_array(map_info->norm_map, map_info->map_height);
+	if (map_info->no_path)
+		free(map_info->no_path);
+	if (map_info->so_path)
+		free(map_info->so_path);
+	if (map_info->we_path)
+		free(map_info->we_path);
+	if (map_info->ea_path)
+		free(map_info->ea_path);
+}
+
 int	main(int argc, char **argv)
 {
 	t_map_info	map_info;
 	char *storage;
-	
+	int	ret;
+
+	ret = 1;
 	storage = NULL;
-	if (argc == 2)
+	if (argc != 2)
+		return (printf("Error: Expected exactly one map path\n"), 1);
+	if (!is_valid_map_file(argv[1]) || !check_file_height(argv[1], &map_info, &storage))
+		return (1);
+	read_file(argv[1], &map_info, &storage);
+	if (split_config_and_map(&map_info) && is_valid_element_count(&map_info)
+		&& store_map_lines(&map_info) && compute_map_width(&map_info))
 	{
-		if (!is_valid_map_file(argv[1]))
-			return (printf("Error: Map check failed\n"), 1);
-		if (!check_file_height(argv[1], &map_info, &storage))
-			return (1);
-		read_file(argv[1], &map_info, &storage);
-		if (!split_config_and_map(&map_info))
-			return (1);
-		if (!is_valid_element_count(&map_info))
-			return (1);
-		if (!store_map_lines(&map_info))
-			return (1);
-		if (!compute_map_width(&map_info))
-			return (1);
 		create_map(&map_info);
 		fill_map(&map_info);
-		if (!check_player(&map_info))
-			return (1);
-		if (!check_map(&map_info))
-			return (1);
-		return (0);
+		if (check_player(&map_info) && check_map(&map_info))
+			ret = 0;
 	}
-	return (printf("Error: Expected exactly one map path\n"), 1);
+	free_map_info(&map_info);
+	return (ret);
 }

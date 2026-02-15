@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:03:05 by yucchen           #+#    #+#             */
-/*   Updated: 2026/02/15 15:29:45 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/02/15 18:11:41 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ typedef struct s_map_info
 	int		file_height;
 	char	**lines;
 	int		no_cnt;
-    int		so_cnt;
-    int		we_cnt;
-    int		ea_cnt;
+	int		so_cnt;
+	int		we_cnt;
+	int		ea_cnt;
 	char	*no_path;
 	char	*so_path;
 	char	*we_path;

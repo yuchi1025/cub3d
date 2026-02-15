@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:16:01 by yucchen           #+#    #+#             */
-/*   Updated: 2026/02/14 19:06:32 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/02/15 15:07:25 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -304,19 +304,26 @@ int	check_element(char *line, t_map_info *map_info)
 }
 
 // Locate map start
-int	contain_map_tile(char *line)
+int	is_map_char(char c)
 {
-	int	i;
+	if (c == ' ' || c == '0' || c == '1' || c == 'N'
+		|| c == 'S'|| c == 'E' || c == 'W')
+		return (1);
+	return (0);
+}
+
+int	is_map_line(char *line)
+{
+	int i;
 
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] == '1' || line[i] == '0' || line[i] == 'N'
-				|| line[i] == 'S' || line[i] == 'E' || line[i] == 'W')
-			return (1);
+		if (!is_map_char(line[i]))
+			return (0);
 		i++;
 	}
-	return (0);
+	return (1);
 }
 
 int	contain_open_tile(char *line)
@@ -332,21 +339,6 @@ int	contain_open_tile(char *line)
 		i++;
 	}
 	return (0);
-}
-
-int	is_map_charset_only(char *line)
-{
-	int	i;
-
-	i = 0;
-	while (line[i])
-	{
-		if (line[i] != '1' && line[i] != '0' && line[i] != 'N' && line[i] != 'S'
-			&& line[i] != 'E' && line[i] != 'W' && line[i] != ' ')
-			return (0);
-		i++;
-	}
-	return (1);
 }
 
 int	split_config_and_map(t_map_info *map_info)
@@ -372,7 +364,7 @@ int	split_config_and_map(t_map_info *map_info)
 				if (!check_element(line, map_info))
 					return (0);
 			}
-			else if (contain_map_tile(line))
+			else if (is_map_line(line))
 			{
 				map_info->map_start = i;
 				printf("map_start: %d\n", map_info->map_start);
@@ -383,15 +375,10 @@ int	split_config_and_map(t_map_info *map_info)
 					printf("Invalid top row: %s\n", line);
 						return (0);
 				}
-				if (!is_map_charset_only(line))
-				{
-					printf("Invalid top row: %s\n", line);
-						return (0);
-				}
 			}
 			else
 			{
-				printf("Invalid config line: %s\n", line);
+				printf("Invalid line: %s\n", line);
 					return (0);
 			}
 		}
@@ -402,14 +389,9 @@ int	split_config_and_map(t_map_info *map_info)
 				printf("No blank line allowed inside the map\n");
 					return (0);
 			}
-			else if (is_config_line(line))
+			else if (!is_map_line(line))
 			{
-				printf("No config line allowed after the map begins\n");
-					return (0);
-			}
-			else if (!is_map_charset_only(line))
-			{
-				printf("Invalid map line: %s\n", line);
+				printf("Invalid map line\n");
 					return (0);
 			}
 		}

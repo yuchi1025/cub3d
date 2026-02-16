@@ -6,7 +6,7 @@
 #    By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/03 10:21:25 by yucchen           #+#    #+#              #
-#    Updated: 2026/02/03 10:49:14 by yucchen          ###   ########.fr        #
+#    Updated: 2026/02/16 10:20:52 by yucchen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ MAKE = make
 
 # File name and file list
 NAME = cub3D
-SOURCES = main.c
+SOURCES = file_check.c \
+		  main.c
 OBJECTS = $(SOURCES:.c=.o)
 
 LIBFT_DIR = libft

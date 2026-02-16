@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:03:05 by yucchen           #+#    #+#             */
-/*   Updated: 2026/02/15 18:11:41 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/02/16 17:08:45 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 # include "./minilibx-linux/mlx.h"
 # include <stdio.h>
 # include <fcntl.h>
+
+# define SCREEN_W 800
+# define SCREEN_H 600
 
 typedef struct s_map_info
 {
@@ -41,6 +44,21 @@ typedef struct s_map_info
 	float	player_x;
 	float	player_y;
 	char	player_dir;
+
+	// MLX
+	void	*mlx_ptr;
+	void	*window_ptr;
+	// Image buffer variables
+	void	*img_ptr;
+	char	*addr;
+	int		bits_per_pixel;
+	int		size_line;
+	int		endian;
 }			t_map_info;
+
+// file_check.c
+int	is_valid_map_file(char *path);
+int	check_file_height(const char *path, t_map_info *map_info, char **storage);
+int	read_file(const char *path, t_map_info *map_info, char **storage);
 
 #endif

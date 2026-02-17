@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:16:01 by yucchen           #+#    #+#             */
-/*   Updated: 2026/02/16 17:04:01 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/02/17 14:37:22 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,12 +147,13 @@ void	save_texture(int *cnt, char **dest, char *path)
 
 int	check_texture(char *id, char *path, t_map_info *map_info)
 {
-	int	fd;
+	// TODO: Add texture
+	//int	fd;
 
-	fd = open(path, O_RDONLY);
-	if (fd == -1)
-		return (perror("open error"), 0);
-	close(fd);
+	//fd = open(path, O_RDONLY);
+	//if (fd == -1)
+	//	return (perror("open error"), 0);
+	//close(fd);
 	if (ft_strcmp(id, "NO") == 0)
 		save_texture(&(map_info->no_cnt), &(map_info->no_path), path);
 	else if (ft_strcmp(id, "SO") == 0)
@@ -338,6 +339,7 @@ int	handle_config_mode(char *line, t_map_info *map_info, int i, int *in_map)
 	{
 		if (!check_element(line, map_info))
 			return (0);
+		return (1);
 	}
 	if (is_map_line(line))
 	{
@@ -631,16 +633,18 @@ void	free_map_info(t_map_info *map_info)
 }
 
 // Initialize MLX and create the window
-int	init_mlx_window(t_map_info *map_info)
+int	init_window(t_map_info *map_info)
 {
 	map_info->mlx_ptr = mlx_init();
 	if (!map_info->mlx_ptr)
 		return (printf("Error: MLX init failed\n"), 0);
-	map_info->window_ptr = mlx_new_window(map_info->mlx_ptr, SCREEN_W, SCREEN_H, "cub3D");
+	map_info->window_ptr = mlx_new_window(map_info->mlx_ptr,
+			SCREEN_W, SCREEN_H, "cub3D");
 	if (!map_info->window_ptr)
-		return (printf("Error: Window creation failed\n"), mlx_destroy_display(map_info->mlx_ptr), free(map_info->mlx_ptr), 0);
+		return (printf("Error: Window creation failed\n"),
+			mlx_destroy_display(map_info->mlx_ptr), free(map_info->mlx_ptr), 0);
 	return (1);
-}	
+}
 
 // Create the image buffer
 int	init_image(t_map_info *map_info)
@@ -650,8 +654,112 @@ int	init_image(t_map_info *map_info)
 	if (!map_info->img_ptr)
 		return (printf("Error: Image creation failed\n"), 0);
 	// Get the memory address of the image 
-	map_info->addr = mlx_get_data_addr(map_info->img_ptr, &map_info->bits_per_pixel, &map_info->size_line, &map_info->endian);
+	map_info->addr = mlx_get_data_addr(map_info->img_ptr,
+			&map_info->bits_per_pixel, &map_info->line_len, &map_info->endian);
 	return (1);
+}
+
+int	ft_close(t_map_info *map_info)
+{
+	if (map_info)
+	{
+		if (map_info->window_ptr)
+			mlx_destroy_window(map_info->mlx_ptr, map_info->window_ptr);
+		if (map_info->mlx_ptr)
+			mlx_destroy_display(map_info->mlx_ptr);
+		free(map_info->mlx_ptr);
+	}
+	exit(0);
+	return (0);
+}
+
+int	ft_keypress(int keycode, t_map_info *map_info)
+{
+	//int	new_x;
+	//int	new_y;
+
+	//new_x = data->player_x;
+	//new_y = data->player_y;
+	if (keycode == KEY_ESC)
+		ft_close(map_info);
+	// TODO: Add W/A/S/D and arrow keys
+	//else if (keycode == KEY_UP)
+	//	new_y--;
+	//else if (keycode == KEY_DOWN)
+	//	new_y++;
+	//else if (keycode == KEY_LEFT)
+	//	new_x--;
+	//else if (keycode == KEY_RIGHT)
+	//	new_x++;
+	//else
+	//	return (0);
+	//if (check_element(data, new_x, new_y))
+	//	update_map(data, new_x, new_y);
+	return (0);
+}
+
+void	ft_mlx_pixel_put(t_map_info *map_info, int x, int y, int color)
+{
+	char	*dst;
+
+	if (x < 0 || x >= SCREEN_W || y < 0 || y >= SCREEN_H)
+		return ;
+	// Calculate the exact memory address of the pixel
+	dst = map_info->addr + (y * map_info->line_len
+			+ x * (map_info->bits_per_pixel / 8));
+	// Write the color to that memory address
+	*(unsigned int *)dst = color;
+}
+
+// The RGB Bitshift
+int	get_color(int rgb[3])
+{
+	// rgb[0] = Red, rgb[1] = Green, rgb[2] = Blue
+	return ((rgb[0] << 16) | (rgb[1] << 8) | rgb[2]);
+}
+
+void	render_background(t_map_info *map_info)
+{
+	int	x;
+	int	y;
+	int	floor_hex;
+	int	ceil_hex;
+
+	floor_hex = get_color(map_info->floor_color);
+	ceil_hex = get_color(map_info->ceil_color);
+	y = 0;
+	while (y < SCREEN_H)
+	{
+		x = 0;
+		while (x < SCREEN_W)
+		{
+			if (y < SCREEN_H / 2)
+				ft_mlx_pixel_put(map_info, x, y, ceil_hex);
+			else
+				ft_mlx_pixel_put(map_info, x, y, floor_hex);
+			x++;
+		}
+		y++;
+	}
+}
+
+int	render_frame(t_map_info *map_info)
+{
+	render_background(map_info);
+	// TODO: draw the walls over the background
+	mlx_put_image_to_window(map_info->mlx_ptr, map_info->window_ptr,
+		map_info->img_ptr, 0, 0);
+	return (0);
+}
+
+void	start_game(t_map_info *map_info)
+{
+	mlx_hook(map_info->window_ptr, DestroyNotify, StructureNotifyMask, ft_close,
+		map_info);
+	mlx_hook(map_info->window_ptr, KeyPress, KeyPressMask,
+		ft_keypress, map_info);
+	mlx_loop_hook(map_info->mlx_ptr, render_frame, map_info);
+	mlx_loop(map_info->mlx_ptr);
 }
 
 int	main(int argc, char **argv)
@@ -674,8 +782,11 @@ int	main(int argc, char **argv)
 	{
 		fill_map(&map_info);
 		if (check_player(&map_info) && check_map(&map_info))
+		{
+			if (init_window(&map_info) && init_image(&map_info))
+				start_game(&map_info);
 			ret = 0;
+		}
 	}
-	free_map_info(&map_info);
-	return (ret);
+	return (free_map_info(&map_info), ret);
 }

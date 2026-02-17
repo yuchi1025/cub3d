@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:03:05 by yucchen           #+#    #+#             */
-/*   Updated: 2026/02/16 17:08:45 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/02/17 14:32:12 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,13 @@
 # include "./minilibx-linux/mlx.h"
 # include <stdio.h>
 # include <fcntl.h>
+# include <X11/X.h>
+# include <X11/keysymdef.h>
 
+// TODO: Screen width and height
 # define SCREEN_W 800
 # define SCREEN_H 600
+# define KEY_ESC 65307
 
 typedef struct s_map_info
 {
@@ -52,7 +56,7 @@ typedef struct s_map_info
 	void	*img_ptr;
 	char	*addr;
 	int		bits_per_pixel;
-	int		size_line;
+	int		line_len;
 	int		endian;
 }			t_map_info;
 

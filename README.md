@@ -76,7 +76,11 @@ If any step fails, the program exits.
 		- If the last column contains any `0`, `N`, `S`, `E`, `W` -> fail (Step 6)
 	- For every '0', check 4 neighbors != ' '
 		- (x, y)
-		- up (x, y - 1)
-		- down (x, y + 1)
-		- left (x - 1, y)
-		- right (x + 1, y)
+		- North: Up (x, y - 1)
+		- South: Down (x, y + 1)
+		- West: Left (x - 1, y)
+		- East: Right (x + 1, y)
+
+## Resources
+References
+- Lode's Computer Graphics Tutorial: Raycasting (https://lodev.org/cgtutor/raycasting.html)

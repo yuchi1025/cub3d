@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:16:01 by yucchen           #+#    #+#             */
-/*   Updated: 2026/02/17 14:37:22 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/02/17 17:02:47 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@
 //}
 
 //// Step 2 - Read file into lines
-//int	check_file_height(const char *path, t_map_info *map_info, char **storage)
+//int	check_file_height(const char *path, t_map_info *map, char **storage)
 //{
 //	int		fd;
 //	char	*next_line;
 //
-//	ft_bzero(map_info, sizeof(*map_info));
+//	ft_bzero(map, sizeof(*map));
 //	fd = open(path, O_RDONLY);
 //	if (fd == -1)
 //		return (perror("open error"), 0);
@@ -51,16 +51,16 @@
 //	while (next_line)
 //	{
 //		free(next_line);
-//		(map_info->file_height)++;
+//		(map->file_height)++;
 //		next_line = get_next_line(fd, storage);
 //	}
 //	close(fd);
-//	if (map_info->file_height == 0)
+//	if (map->file_height == 0)
 //		return (printf("Error: Empty file\n"), 0);
 //	return (1);
 //}
 
-//int	read_file(const char *path, t_map_info *map_info, char **storage)
+//int	read_file(const char *path, t_map_info *map, char **storage)
 //{
 //	int		i;
 //	int		fd;
@@ -71,8 +71,8 @@
 //	fd = open(path, O_RDONLY);
 //	if (fd == -1)
 //		return (perror("open error"), 0);
-//	map_info->lines = malloc((map_info->file_height + 1) * sizeof(char *));
-//	if (!map_info->lines)
+//	map->lines = malloc((map->file_height + 1) * sizeof(char *));
+//	if (!map->lines)
 //		return (printf("Error: Malloc failed\n"), 0);
 //	next_line = get_next_line(fd, storage);
 //	while (next_line)
@@ -80,11 +80,11 @@
 //		len = ft_strlen(next_line);
 //		if (len > 0 && next_line[len - 1] == '\n')
 //			next_line[len - 1] = '\0';
-//		map_info->lines[i] = next_line;
+//		map->lines[i] = next_line;
 //		next_line = get_next_line(fd, storage);
 //		i++;
 //	}
-//	map_info->lines[i] = NULL;
+//	map->lines[i] = NULL;
 //	close(fd);
 //	return (1);
 //}
@@ -145,7 +145,7 @@ void	save_texture(int *cnt, char **dest, char *path)
 		*dest = ft_strdup(path);
 }
 
-int	check_texture(char *id, char *path, t_map_info *map_info)
+int	check_texture(char *id, char *path, t_map_info *map)
 {
 	// TODO: Add texture
 	//int	fd;
@@ -155,13 +155,13 @@ int	check_texture(char *id, char *path, t_map_info *map_info)
 	//	return (perror("open error"), 0);
 	//close(fd);
 	if (ft_strcmp(id, "NO") == 0)
-		save_texture(&(map_info->no_cnt), &(map_info->no_path), path);
+		save_texture(&(map->no_cnt), &(map->no_path), path);
 	else if (ft_strcmp(id, "SO") == 0)
-		save_texture(&(map_info->so_cnt), &(map_info->so_path), path);
+		save_texture(&(map->so_cnt), &(map->so_path), path);
 	else if (ft_strcmp(id, "WE") == 0)
-		save_texture(&(map_info->we_cnt), &(map_info->we_path), path);
+		save_texture(&(map->we_cnt), &(map->we_path), path);
 	else if (ft_strcmp(id, "EA") == 0)
-		save_texture(&(map_info->ea_cnt), &(map_info->ea_path), path);
+		save_texture(&(map->ea_cnt), &(map->ea_path), path);
 	else
 		return (printf("Invalid id: %s\n", id), 0);
 	return (1);
@@ -225,7 +225,7 @@ int	check_commas(char *colors)
 	return (1);
 }
 
-int	save_rgb(char *id, char **color, t_map_info *map_info)
+int	save_rgb(char *id, char **color, t_map_info *map)
 {
 	int	n;
 
@@ -235,9 +235,9 @@ int	save_rgb(char *id, char **color, t_map_info *map_info)
 		if (!is_number_in_range(color[n]))
 			return (0);
 		if (ft_strcmp(id, "F") == 0)
-			map_info->floor_color[n] = ft_atoi(color[n]);
+			map->floor_color[n] = ft_atoi(color[n]);
 		else
-			map_info->ceil_color[n] = ft_atoi(color[n]);
+			map->ceil_color[n] = ft_atoi(color[n]);
 		n++;
 	}
 	if (n != 3)
@@ -245,14 +245,14 @@ int	save_rgb(char *id, char **color, t_map_info *map_info)
 	return (1);
 }
 
-int	check_color(char *id, char *colors, t_map_info *map_info)
+int	check_color(char *id, char *colors, t_map_info *map)
 {
 	char	**color;
 
 	if (ft_strcmp(id, "F") == 0)
-		(map_info->floor_cnt)++;
+		(map->floor_cnt)++;
 	else if (ft_strcmp(id, "C") == 0)
-		(map_info->ceil_cnt)++;
+		(map->ceil_cnt)++;
 	else
 		return (printf("Invalid id: %s\n", id), 0);
 	if (!check_commas(colors))
@@ -260,12 +260,12 @@ int	check_color(char *id, char *colors, t_map_info *map_info)
 	color = ft_split(colors, ',');
 	if (!color)
 		return (printf("Error: Malloc failed\n"), 0);
-	if (!save_rgb(id, color, map_info))
+	if (!save_rgb(id, color, map))
 		return (free_split(color), 0);
 	return (free_split(color), 1);
 }
 
-int	check_element(char *line, t_map_info *map_info)
+int	check_element(char *line, t_map_info *map)
 {
 	char	**token;
 	int		n;
@@ -280,12 +280,12 @@ int	check_element(char *line, t_map_info *map_info)
 		return (printf("Only accept 2 tokens\n"), free_split(token), 0);
 	if (ft_strlen(token[0]) == 2)
 	{
-		if (!check_texture(token[0], token[1], map_info))
+		if (!check_texture(token[0], token[1], map))
 			return (free_split(token), 0);
 	}
 	else if (ft_strlen(token[0]) == 1)
 	{
-		if (!check_color(token[0], token[1], map_info))
+		if (!check_color(token[0], token[1], map))
 			return (free_split(token), 0);
 	}
 	else
@@ -331,22 +331,21 @@ int	contain_open_tile(char *line)
 	return (0);
 }
 
-int	handle_config_mode(char *line, t_map_info *map_info, int i, int *in_map)
+// Check if the top row contains any `0`, `N`, `S`, `E`, `W` -> fail
+int	handle_config_mode(char *line, t_map_info *map, int i, int *in_map)
 {
 	if (is_blank_line(line))
 		return (1);
 	if (is_config_line(line))
 	{
-		if (!check_element(line, map_info))
+		if (!check_element(line, map))
 			return (0);
 		return (1);
 	}
 	if (is_map_line(line))
 	{
-		map_info->map_start = i;
-		printf("map_start: %d\n", map_info->map_start);
+		map->map_start = i;
 		*in_map = 1;
-		// Check if the top row contains any `0`, `N`, `S`, `E`, `W` -> fail
 		if (contain_open_tile(line))
 			return (printf("Invalid top row: %s\n", line), 0);
 		return (1);
@@ -354,7 +353,7 @@ int	handle_config_mode(char *line, t_map_info *map_info, int i, int *in_map)
 	return (printf("Invalid line: %s\n", line), 0);
 }
 
-int	split_config_and_map(t_map_info *map_info)
+int	split_config_and_map(t_map_info *map)
 {
 	int		i;
 	int		in_map;
@@ -362,12 +361,12 @@ int	split_config_and_map(t_map_info *map_info)
 
 	i = 0;
 	in_map = 0;
-	while (i < map_info->file_height)
+	while (i < map->file_height)
 	{
-		line = map_info->lines[i];
+		line = map->lines[i];
 		if (!in_map)
 		{
-			if (!handle_config_mode(line, map_info, i, &in_map))
+			if (!handle_config_mode(line, map, i, &in_map))
 				return (0);
 		}
 		else if (is_blank_line(line))
@@ -382,56 +381,49 @@ int	split_config_and_map(t_map_info *map_info)
 }
 
 // Step 4 - Check configuration identifiers count 
-int	is_valid_element_count(t_map_info *map_info)
+int	is_valid_element_count(t_map_info *map)
 {
-	if (map_info->no_cnt != 1)
-		return (printf("Error: Invalid tex_NO count: %d\n",
-				map_info->no_cnt), 0);
-	if (map_info->so_cnt != 1)
-		return (printf("Error: Invalid tex_SO count: %d\n",
-				map_info->so_cnt), 0);
-	if (map_info->we_cnt != 1)
-		return (printf("Error: Invalid tex_WE count: %d\n",
-				map_info->we_cnt), 0);
-	if (map_info->ea_cnt != 1)
-		return (printf("Error: Invalid tex_EA count: %d\n",
-				map_info->ea_cnt), 0);
-	if (map_info->floor_cnt != 1)
-		return (printf("Error: Invalid floor count: %d\n",
-				map_info->floor_cnt), 0);
-	if (map_info->ceil_cnt != 1)
-		return (printf("Error: Invalid ceil count: %d\n",
-				map_info->ceil_cnt), 0);
+	if (map->no_cnt != 1)
+		return (printf("Error: Invalid tex_NO count: %d\n", map->no_cnt), 0);
+	if (map->so_cnt != 1)
+		return (printf("Error: Invalid tex_SO count: %d\n", map->so_cnt), 0);
+	if (map->we_cnt != 1)
+		return (printf("Error: Invalid tex_WE count: %d\n", map->we_cnt), 0);
+	if (map->ea_cnt != 1)
+		return (printf("Error: Invalid tex_EA count: %d\n", map->ea_cnt), 0);
+	if (map->floor_cnt != 1)
+		return (printf("Error: Invalid floor count: %d\n", map->floor_cnt), 0);
+	if (map->ceil_cnt != 1)
+		return (printf("Error: Invalid ceil count: %d\n", map->ceil_cnt), 0);
 	return (1);
 }
 
 // Step 5 - Collect map lines
-int	store_map_lines(t_map_info *map_info)
+// Check if the bottom row contains any `0`, `N`, `S`, `E`, `W` -> fail
+int	store_map_lines(t_map_info *map)
 {
 	int	i;
 	int	j;
 
-	map_info->map_height = map_info->file_height - map_info->map_start;
-	map_info->map_lines = malloc((map_info->map_height + 1) * sizeof(char *));
-	if (!map_info->map_lines)
+	map->map_height = map->file_height - map->map_start;
+	map->map_lines = malloc((map->map_height + 1) * sizeof(char *));
+	if (!map->map_lines)
 	{
 		printf("Error: Malloc failed\n");
 		return (0);
 	}
 	i = 0;
-	j = map_info->map_start;
-	while (j < map_info->file_height)
+	j = map->map_start;
+	while (j < map->file_height)
 	{
-		map_info->map_lines[i] = map_info->lines[j];
+		map->map_lines[i] = map->lines[j];
 		i++;
 		j++;
 	}
-	map_info->map_lines[i] = NULL;
-	// Check if the bottom row contains any `0`, `N`, `S`, `E`, `W` -> fail
-	if (contain_open_tile(map_info->map_lines[map_info->map_height - 1]))
+	map->map_lines[i] = NULL;
+	if (contain_open_tile(map->map_lines[map->map_height - 1]))
 		return (printf("Invalid bottom row: %s\n"
-				, map_info->map_lines[map_info->map_height - 1]), 0);
-	printf("map_height: %d\n", map_info->map_height);
+				, map->map_lines[map->map_height - 1]), 0);
 	return (1);
 }
 
@@ -443,32 +435,30 @@ int	is_open_tile(char c)
 	return (0);
 }
 
-int	compute_map_width(t_map_info *map_info)
+// Check if the first/last column contains any `0`, `N`, `S`, `E`, `W` -> fail
+int	compute_map_width(t_map_info *map)
 {
 	int	i;
 	int	line_width;
 
 	i = 0;
-	while (i < map_info->map_height)
+	while (i < map->map_height)
 	{
-		line_width = ft_strlen(map_info->map_lines[i]);
-		// Check if the first column contains any `0`, `N`, `S`, `E`, `W`
-		if (is_open_tile(map_info->map_lines[i][0]))
+		line_width = ft_strlen(map->map_lines[i]);
+		if (is_open_tile(map->map_lines[i][0]))
 		{
 			printf("Invalid left column\n");
 			return (0);
 		}
-		// Check if the last column contains any `0`, `N`, `S`, `E`, `W` -> fail
-		if (is_open_tile(map_info->map_lines[i][line_width - 1]))
+		if (is_open_tile(map->map_lines[i][line_width - 1]))
 		{
 			printf("Invalid right column\n");
 			return (0);
 		}
-		if (line_width > map_info->map_width)
-			map_info->map_width = line_width;
+		if (line_width > map->map_width)
+			map->map_width = line_width;
 		i++;
 	}
-	printf("map width: %d\n", map_info->map_width);
 	return (1);
 }
 
@@ -486,48 +476,48 @@ void	ft_free_array(char **array, int count)
 	free(array);
 }
 
-int	create_map(t_map_info *map_info)
+int	create_map(t_map_info *map)
 {
 	int	i;
 	int	j;
 
-	map_info->norm_map = malloc((map_info->map_height + 1) * sizeof(char *));
-	if (!map_info->norm_map)
+	map->norm_map = malloc((map->map_height + 1) * sizeof(char *));
+	if (!map->norm_map)
 		return (printf("Error: Malloc failed\n"), 0);
 	i = 0;
-	while (i < map_info->map_height)
+	while (i < map->map_height)
 	{
-		map_info->norm_map[i] = malloc(map_info->map_width + 1);
-		if (!map_info->norm_map[i])
-			return (ft_free_array(map_info->norm_map, i)
+		map->norm_map[i] = malloc(map->map_width + 1);
+		if (!map->norm_map[i])
+			return (ft_free_array(map->norm_map, i)
 				, printf("Error: Malloc failed\n"), 0);
 		j = 0;
-		while (j < map_info->map_width)
+		while (j < map->map_width)
 		{
-			map_info->norm_map[i][j] = ' ';
+			map->norm_map[i][j] = ' ';
 			j++;
 		}
-		map_info->norm_map[i][map_info->map_width] = '\0';
+		map->norm_map[i][map->map_width] = '\0';
 		i++;
 	}
-	map_info->norm_map[map_info->map_height] = NULL;
+	map->norm_map[map->map_height] = NULL;
 	return (1);
 }
 
-void	fill_map(t_map_info *map_info)
+void	fill_map(t_map_info *map)
 {
 	int	i;
 	int	j;
 	int	line_width;
 
 	i = 0;
-	while (i < map_info->map_height)
+	while (i < map->map_height)
 	{
 		j = 0;
-		line_width = ft_strlen(map_info->map_lines[i]);
+		line_width = ft_strlen(map->map_lines[i]);
 		while (j < line_width)
 		{
-			(map_info->norm_map)[i][j] = (map_info->map_lines)[i][j];
+			(map->norm_map)[i][j] = (map->map_lines)[i][j];
 			j++;
 		}
 		i++;
@@ -535,19 +525,19 @@ void	fill_map(t_map_info *map_info)
 }
 
 // Step 8 - Player extraction
-int	set_player(t_map_info *map_info, int i, int j, int *find_player)
+int	set_player(t_map_info *map, int i, int j, int *find_player)
 {
 	if (*find_player != 0)
 		return (printf("Only accept one player\n"), 0);
 	*find_player = 1;
-	map_info->player_x = j + 0.5;
-	map_info->player_y = i + 0.5;
-	map_info->player_dir = map_info->norm_map[i][j];
-	map_info->norm_map[i][j] = '0';
+	map->player_x = j + 0.5;
+	map->player_y = i + 0.5;
+	map->player_dir = map->norm_map[i][j];
+	map->norm_map[i][j] = '0';
 	return (1);
 }
 
-int	check_player(t_map_info *map_info)
+int	check_player(t_map_info *map)
 {
 	int	i;
 	int	j;
@@ -555,14 +545,14 @@ int	check_player(t_map_info *map_info)
 
 	i = 0;
 	find_player = 0;
-	while (i < map_info->map_height)
+	while (i < map->map_height)
 	{
 		j = 0;
-		while (j < map_info->map_width)
+		while (j < map->map_width)
 		{
-			if (ft_strchr("NSEW", map_info->norm_map[i][j]))
+			if (ft_strchr("NSEW", map->norm_map[i][j]))
 			{
-				if (!set_player(map_info, i, j, &find_player))
+				if (!set_player(map, i, j, &find_player))
 					return (0);
 			}
 			j++;
@@ -575,33 +565,33 @@ int	check_player(t_map_info *map_info)
 }
 
 // Step 9 - Map validation
-int	check_neighbors(t_map_info *map_info, int x, int y)
+int	check_neighbors(t_map_info *map, int x, int y)
 {
-	if (y > 0 && map_info->norm_map[y - 1][x] == ' ')
+	if (y > 0 && map->norm_map[y - 1][x] == ' ')
 		return (0);
-	if (y + 1 < map_info->map_height && map_info->norm_map[y + 1][x] == ' ')
+	if (y + 1 < map->map_height && map->norm_map[y + 1][x] == ' ')
 		return (0);
-	if (x > 0 && map_info->norm_map[y][x - 1] == ' ')
+	if (x > 0 && map->norm_map[y][x - 1] == ' ')
 		return (0);
-	if (x + 1 < map_info->map_width && map_info->norm_map[y][x + 1] == ' ')
+	if (x + 1 < map->map_width && map->norm_map[y][x + 1] == ' ')
 		return (0);
 	return (1);
 }
 
-int	check_map(t_map_info *map_info)
+int	check_map(t_map_info *map)
 {
 	int	i;
 	int	j;
 
 	i = 0;
-	while (i < map_info->map_height)
+	while (i < map->map_height)
 	{
 		j = 0;
-		while (j < map_info->map_width)
+		while (j < map->map_width)
 		{
-			if (map_info->norm_map[i][j] == '0')
+			if (map->norm_map[i][j] == '0')
 			{
-				if (!check_neighbors(map_info, j, i))
+				if (!check_neighbors(map, j, i))
 				{
 					printf("Invalid map\n");
 					return (0);
@@ -614,157 +604,48 @@ int	check_map(t_map_info *map_info)
 	return (1);
 }
 
-void	free_map_info(t_map_info *map_info)
+// The camera plane is always perpendicular (90 degrees) to the direction vector
+void	set_math_vectors(t_map_info *map, double dx, double dy)
 {
-	if (map_info->lines)
-		ft_free_array(map_info->lines, map_info->file_height);
-	if (map_info->map_lines)
-		free(map_info->map_lines);
-	if (map_info->norm_map)
-		ft_free_array(map_info->norm_map, map_info->map_height);
-	if (map_info->no_path)
-		free(map_info->no_path);
-	if (map_info->so_path)
-		free(map_info->so_path);
-	if (map_info->we_path)
-		free(map_info->we_path);
-	if (map_info->ea_path)
-		free(map_info->ea_path);
+	map->dir_x = dx;
+	map->dir_y = dy;
+	map->plane_x = -dy * 0.66;
+	map->plane_y = dx * 0.66;
 }
 
-// Initialize MLX and create the window
-int	init_window(t_map_info *map_info)
+void	init_player_dir(t_map_info *map)
 {
-	map_info->mlx_ptr = mlx_init();
-	if (!map_info->mlx_ptr)
-		return (printf("Error: MLX init failed\n"), 0);
-	map_info->window_ptr = mlx_new_window(map_info->mlx_ptr,
-			SCREEN_W, SCREEN_H, "cub3D");
-	if (!map_info->window_ptr)
-		return (printf("Error: Window creation failed\n"),
-			mlx_destroy_display(map_info->mlx_ptr), free(map_info->mlx_ptr), 0);
-	return (1);
+	if (map->player_dir == 'N')
+		set_math_vectors(map, 0.0, -1.0);
+	else if (map->player_dir == 'S')
+		set_math_vectors(map, 0.0, 1.0);
+	else if (map->player_dir == 'E')
+		set_math_vectors(map, 1.0, 0.0);
+	else if (map->player_dir == 'W')
+		set_math_vectors(map, -1.0, 0.0);
 }
 
-// Create the image buffer
-int	init_image(t_map_info *map_info)
+void	free_map_info(t_map_info *map)
 {
-	// Create a blank image
-	map_info->img_ptr = mlx_new_image(map_info->mlx_ptr, SCREEN_W, SCREEN_H);
-	if (!map_info->img_ptr)
-		return (printf("Error: Image creation failed\n"), 0);
-	// Get the memory address of the image 
-	map_info->addr = mlx_get_data_addr(map_info->img_ptr,
-			&map_info->bits_per_pixel, &map_info->line_len, &map_info->endian);
-	return (1);
-}
-
-int	ft_close(t_map_info *map_info)
-{
-	if (map_info)
-	{
-		if (map_info->window_ptr)
-			mlx_destroy_window(map_info->mlx_ptr, map_info->window_ptr);
-		if (map_info->mlx_ptr)
-			mlx_destroy_display(map_info->mlx_ptr);
-		free(map_info->mlx_ptr);
-	}
-	exit(0);
-	return (0);
-}
-
-int	ft_keypress(int keycode, t_map_info *map_info)
-{
-	//int	new_x;
-	//int	new_y;
-
-	//new_x = data->player_x;
-	//new_y = data->player_y;
-	if (keycode == KEY_ESC)
-		ft_close(map_info);
-	// TODO: Add W/A/S/D and arrow keys
-	//else if (keycode == KEY_UP)
-	//	new_y--;
-	//else if (keycode == KEY_DOWN)
-	//	new_y++;
-	//else if (keycode == KEY_LEFT)
-	//	new_x--;
-	//else if (keycode == KEY_RIGHT)
-	//	new_x++;
-	//else
-	//	return (0);
-	//if (check_element(data, new_x, new_y))
-	//	update_map(data, new_x, new_y);
-	return (0);
-}
-
-void	ft_mlx_pixel_put(t_map_info *map_info, int x, int y, int color)
-{
-	char	*dst;
-
-	if (x < 0 || x >= SCREEN_W || y < 0 || y >= SCREEN_H)
-		return ;
-	// Calculate the exact memory address of the pixel
-	dst = map_info->addr + (y * map_info->line_len
-			+ x * (map_info->bits_per_pixel / 8));
-	// Write the color to that memory address
-	*(unsigned int *)dst = color;
-}
-
-// The RGB Bitshift
-int	get_color(int rgb[3])
-{
-	// rgb[0] = Red, rgb[1] = Green, rgb[2] = Blue
-	return ((rgb[0] << 16) | (rgb[1] << 8) | rgb[2]);
-}
-
-void	render_background(t_map_info *map_info)
-{
-	int	x;
-	int	y;
-	int	floor_hex;
-	int	ceil_hex;
-
-	floor_hex = get_color(map_info->floor_color);
-	ceil_hex = get_color(map_info->ceil_color);
-	y = 0;
-	while (y < SCREEN_H)
-	{
-		x = 0;
-		while (x < SCREEN_W)
-		{
-			if (y < SCREEN_H / 2)
-				ft_mlx_pixel_put(map_info, x, y, ceil_hex);
-			else
-				ft_mlx_pixel_put(map_info, x, y, floor_hex);
-			x++;
-		}
-		y++;
-	}
-}
-
-int	render_frame(t_map_info *map_info)
-{
-	render_background(map_info);
-	// TODO: draw the walls over the background
-	mlx_put_image_to_window(map_info->mlx_ptr, map_info->window_ptr,
-		map_info->img_ptr, 0, 0);
-	return (0);
-}
-
-void	start_game(t_map_info *map_info)
-{
-	mlx_hook(map_info->window_ptr, DestroyNotify, StructureNotifyMask, ft_close,
-		map_info);
-	mlx_hook(map_info->window_ptr, KeyPress, KeyPressMask,
-		ft_keypress, map_info);
-	mlx_loop_hook(map_info->mlx_ptr, render_frame, map_info);
-	mlx_loop(map_info->mlx_ptr);
+	if (map->lines)
+		ft_free_array(map->lines, map->file_height);
+	if (map->map_lines)
+		free(map->map_lines);
+	if (map->norm_map)
+		ft_free_array(map->norm_map, map->map_height);
+	if (map->no_path)
+		free(map->no_path);
+	if (map->so_path)
+		free(map->so_path);
+	if (map->we_path)
+		free(map->we_path);
+	if (map->ea_path)
+		free(map->ea_path);
 }
 
 int	main(int argc, char **argv)
 {
-	t_map_info	map_info;
+	t_map_info	map;
 	char		*storage;
 	int			ret;
 
@@ -773,20 +654,20 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 		return (printf("Error: Expected exactly one map path\n"), 1);
 	if (!is_valid_map_file(argv[1])
-		|| !check_file_height(argv[1], &map_info, &storage))
+		|| !check_file_height(argv[1], &map, &storage))
 		return (1);
-	if (read_file(argv[1], &map_info, &storage)
-		&& split_config_and_map(&map_info) && is_valid_element_count(&map_info)
-		&& store_map_lines(&map_info) && compute_map_width(&map_info)
-		&& create_map(&map_info))
+	if (read_file(argv[1], &map, &storage) && split_config_and_map(&map)
+		&& is_valid_element_count(&map) && store_map_lines(&map)
+		&& compute_map_width(&map) && create_map(&map))
 	{
-		fill_map(&map_info);
-		if (check_player(&map_info) && check_map(&map_info))
+		fill_map(&map);
+		if (check_player(&map) && check_map(&map))
 		{
-			if (init_window(&map_info) && init_image(&map_info))
-				start_game(&map_info);
+			init_player_dir(&map);
+			if (init_window(&map) && init_image(&map))
+				start_game(&map);
 			ret = 0;
 		}
 	}
-	return (free_map_info(&map_info), ret);
+	return (free_map_info(&map), ret);
 }

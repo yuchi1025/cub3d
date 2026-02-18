@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:02:39 by yucchen           #+#    #+#             */
-/*   Updated: 2026/02/17 15:59:38 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/02/18 14:55:46 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,8 @@ void	render_background(t_map_info *map)
 int	render_frame(t_map_info *map)
 {
 	render_background(map);
-	// TODO: Draw the walls over the background
+	// Draw the walls over the background
+	cast_rays(map);
 	mlx_put_image_to_window(map->mlx_ptr, map->window_ptr, map->img_ptr, 0, 0);
 	return (0);
 }

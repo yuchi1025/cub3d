@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:02:39 by yucchen           #+#    #+#             */
-/*   Updated: 2026/02/18 14:55:46 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/02/19 16:03:59 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,45 +59,55 @@ int	ft_close(t_map_info *map)
 
 int	ft_keypress(int keycode, t_map_info *map)
 {
-	//int	new_x;
-	//int	new_y;
-
-	//new_x = data->player_x;
-	//new_y = data->player_y;
 	if (keycode == KEY_ESC)
 		ft_close(map);
-	// TODO: Add W/A/S/D and arrow keys
-	//else if (keycode == KEY_UP)
-	//	new_y--;
-	//else if (keycode == KEY_DOWN)
-	//	new_y++;
-	//else if (keycode == KEY_LEFT)
-	//	new_x--;
-	//else if (keycode == KEY_RIGHT)
-	//	new_x++;
-	//else
-	//	return (0);
-	//if (check_element(data, new_x, new_y))
-	//	update_map(data, new_x, new_y);
+	else if (keycode == KEY_W)
+		map->key_w = 1;
+	else if (keycode == KEY_A)
+		map->key_a = 1;
+	else if (keycode == KEY_S)
+		map->key_s = 1;
+	else if (keycode == KEY_D)
+		map->key_d = 1;
+	else if (keycode == KEY_LEFT)
+		map->key_left = 1;
+	else if (keycode == KEY_RIGHT)
+		map->key_right = 1;
 	return (0);
 }
 
+int	ft_keyrelease(int keycode, t_map_info *map)
+{
+	if (keycode == KEY_W)
+		map->key_w = 0;
+	else if (keycode == KEY_A)
+		map->key_a = 0;
+	else if (keycode == KEY_S)
+		map->key_s = 0;
+	else if (keycode == KEY_D)
+		map->key_d = 0;
+	else if (keycode == KEY_LEFT)
+		map->key_left = 0;
+	else if (keycode == KEY_RIGHT)
+		map->key_right = 0;
+	return (0);
+}
+
+// Calculate the exact memory address of the pixel
+// Write the color to that memory address
 void	ft_mlx_pixel_put(t_map_info *map, int x, int y, int color)
 {
 	char	*dst;
 
 	if (x < 0 || x >= SCREEN_W || y < 0 || y >= SCREEN_H)
 		return ;
-	// Calculate the exact memory address of the pixel
 	dst = map->addr + (y * map->line_len + x * (map->bits_per_pixel / 8));
-	// Write the color to that memory address
 	*(unsigned int *)dst = color;
 }
 
-// The RGB Bitshift
+// The RGB Bitshift: rgb[0] = Red, rgb[1] = Green, rgb[2] = Blue
 int	get_color(int rgb[3])
 {
-	// rgb[0] = Red, rgb[1] = Green, rgb[2] = Blue
 	return ((rgb[0] << 16) | (rgb[1] << 8) | rgb[2]);
 }
 
@@ -128,6 +138,7 @@ void	render_background(t_map_info *map)
 
 int	render_frame(t_map_info *map)
 {
+	move_player(map);
 	render_background(map);
 	// Draw the walls over the background
 	cast_rays(map);
@@ -139,8 +150,8 @@ void	start_game(t_map_info *map)
 {
 	mlx_hook(map->window_ptr, DestroyNotify, StructureNotifyMask, ft_close,
 		map);
-	mlx_hook(map->window_ptr, KeyPress, KeyPressMask,
-		ft_keypress, map);
+	mlx_hook(map->window_ptr, KeyPress, KeyPressMask, ft_keypress, map);
+	mlx_hook(map->window_ptr, KeyRelease, KeyReleaseMask, ft_keyrelease, map);
 	mlx_loop_hook(map->mlx_ptr, render_frame, map);
 	mlx_loop(map->mlx_ptr);
 }

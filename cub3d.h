@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:03:05 by yucchen           #+#    #+#             */
-/*   Updated: 2026/02/18 14:53:16 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/02/19 15:44:56 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,17 @@
 // TODO: Screen width and height
 # define SCREEN_W 800
 # define SCREEN_H 600
+
 # define KEY_ESC 65307
+# define KEY_LEFT 65361
+# define KEY_RIGHT 65363
+# define KEY_W 119
+# define KEY_A 97
+# define KEY_S 115 
+# define KEY_D 100 
+
+# define MOVE_SPEED 0.05
+# define ROT_SPEED 0.03
 
 typedef struct s_map_info
 {
@@ -65,6 +75,14 @@ typedef struct s_map_info
 	int		bits_per_pixel;
 	int		line_len;
 	int		endian;
+
+	// Movement flags
+	int		key_w;
+	int		key_a;
+	int		key_s;
+	int		key_d;
+	int		key_left;
+	int		key_right;
 }			t_map_info;
 
 typedef struct s_ray
@@ -109,11 +127,15 @@ int		init_window(t_map_info *map);
 int		init_image(t_map_info *map);
 int		ft_close(t_map_info *map);
 int		ft_keypress(int keycode, t_map_info *map);
+int		ft_keyrelease(int keycode, t_map_info *map);
 void	ft_mlx_pixel_put(t_map_info *map, int x, int y, int color);
 int		get_color(int rgb[3]);
 void	render_background(t_map_info *map);
 int		render_frame(t_map_info *map);
 void	start_game(t_map_info *map);
+
+// move_player.c
+void	move_player(t_map_info *map);
 
 // raycaster.c
 void	cast_rays(t_map_info *map);

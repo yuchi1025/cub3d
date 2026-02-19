@@ -6,17 +6,14 @@ Cub3D renders a 3D-like view using raycasting from a 2D map.
 
 Main flow:
 - Parse .cub file (textures, colors, map) -> validate walls & player
+	- .cub format:
+      - NO SO WE EA textures
+      - F C colors
+      - closed map with one player (N/S/E/W)
 - Initialize player (position, direction, plane)
-- Initialize MLX
-- Main loop:
-  - handle input
-  - cast rays
-  - draw walls
-
-.cub format:
-- NO SO WE EA textures
-- F C colors
-- closed map with one player (N/S/E/W)
+- Initialize MLX (Window, Image, Loop hook)
+- Raycasting (Ray direction, Digital Differential Analysis, wall projection)
+- Movement (`W`, `A`, `S`, `D`), rotation(Left/Right), collision detection(Check the `norm_map[(int)y][(int)x]` before updating the position)
 
 ## Parser Design
 The parser is implemented step by step.

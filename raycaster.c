@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yucchen <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 09:57:23 by yucchen           #+#    #+#             */
-/*   Updated: 2026/02/18 15:08:53 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/02/19 15:59:29 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,12 @@ void	init_ray(t_ray *ray, t_map_info *map, int x)
 	calculate_step(ray, map);
 }
 
+// Jump to next map square, either in x-direction, or in y-direction
+// Check if ray has hit a wall
 void	perform_dda(t_ray *ray, t_map_info *map)
 {
 	while (ray->hit == 0)
 	{
-		// Jump to next map square, either in x-direction, or in y-direction
 		if (ray->side_dist_x < ray->side_dist_y)
 		{
 			ray->side_dist_x += ray->delta_dist_x;
@@ -74,7 +75,6 @@ void	perform_dda(t_ray *ray, t_map_info *map)
 			ray->map_y += ray->step_y;
 			ray->side = 1;
 		}
-		// Check if ray has hit a wall
 		if (map->norm_map[ray->map_y][ray->map_x] == '1')
 			ray->hit = 1;
 	}

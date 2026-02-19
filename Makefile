@@ -6,7 +6,7 @@
 #    By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/03 10:21:25 by yucchen           #+#    #+#              #
-#    Updated: 2026/02/18 12:51:57 by yucchen          ###   ########.fr        #
+#    Updated: 2026/02/19 15:46:04 by yucchen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,9 +18,10 @@ MAKE = make
 
 # File name and file list
 NAME = cub3D
-SOURCES = file_check.c \
-		  init_mlx.c   \
-		  raycaster.c  \
+SOURCES = file_check.c  \
+		  init_mlx.c    \
+		  move_player.c \
+		  raycaster.c   \
 		  main.c
 OBJECTS = $(SOURCES:.c=.o)
 

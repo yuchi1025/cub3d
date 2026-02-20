@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:16:01 by yucchen           #+#    #+#             */
-/*   Updated: 2026/02/17 17:02:47 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/02/20 19:39:05 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,13 +147,12 @@ void	save_texture(int *cnt, char **dest, char *path)
 
 int	check_texture(char *id, char *path, t_map_info *map)
 {
-	// TODO: Add texture
-	//int	fd;
+	int	fd;
 
-	//fd = open(path, O_RDONLY);
-	//if (fd == -1)
-	//	return (perror("open error"), 0);
-	//close(fd);
+	fd = open(path, O_RDONLY);
+	if (fd == -1)
+		return (perror("open error"), 0);
+	close(fd);
 	if (ft_strcmp(id, "NO") == 0)
 		save_texture(&(map->no_cnt), &(map->no_path), path);
 	else if (ft_strcmp(id, "SO") == 0)
@@ -664,7 +663,7 @@ int	main(int argc, char **argv)
 		if (check_player(&map) && check_map(&map))
 		{
 			init_player_dir(&map);
-			if (init_window(&map) && init_image(&map))
+			if (init_window(&map) && init_image(&map) && init_textures(&map))
 				start_game(&map);
 			ret = 0;
 		}

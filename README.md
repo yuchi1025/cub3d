@@ -81,3 +81,5 @@ If any step fails, the program exits.
 ## Resources
 References
 - Lode's Computer Graphics Tutorial: Raycasting (https://lodev.org/cgtutor/raycasting.html)
+- Crazy Simple Raycasting E2 - 🎮 How to make awesome 3d games in Scratch (https://www.youtube.com/watch?v=Vihr-PVjWF4)
+- Make Your Own Raycaster Part 1 (https://www.youtube.com/watch?v=gYRrGTC7GtA)

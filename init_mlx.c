@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:02:39 by yucchen           #+#    #+#             */
-/*   Updated: 2026/02/19 16:03:59 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/02/20 19:46:31 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,14 @@ int	init_window(t_map_info *map)
 int	init_image(t_map_info *map)
 {
 	// Create a blank image
-	map->img_ptr = mlx_new_image(map->mlx_ptr, SCREEN_W, SCREEN_H);
-	if (!map->img_ptr)
+	map->img.img_ptr = mlx_new_image(map->mlx_ptr, SCREEN_W, SCREEN_H);
+	if (!map->img.img_ptr)
 		return (printf("Error: Image creation failed\n"), 0);
 	// Get the memory address of the image 
-	map->addr = mlx_get_data_addr(map->img_ptr, &map->bits_per_pixel,
-			&map->line_len, &map->endian);
+	map->img.addr = mlx_get_data_addr(map->img.img_ptr,
+			&map->img.bits_per_pixel, &map->img.line_len, &map->img.endian);
+	if (!map->img.addr)
+		return (0);
 	return (1);
 }
 
@@ -42,8 +44,16 @@ int	ft_close(t_map_info *map)
 {
 	if (map)
 	{
-		if (map->img_ptr)
-			mlx_destroy_image(map->mlx_ptr, map->img_ptr);
+		if (map->no.img_ptr)
+			mlx_destroy_image(map->mlx_ptr, map->no.img_ptr);
+		if (map->so.img_ptr)
+			mlx_destroy_image(map->mlx_ptr, map->so.img_ptr);
+		if (map->we.img_ptr)
+			mlx_destroy_image(map->mlx_ptr, map->we.img_ptr);
+		if (map->ea.img_ptr)
+			mlx_destroy_image(map->mlx_ptr, map->ea.img_ptr);
+		if (map->img.img_ptr)
+			mlx_destroy_image(map->mlx_ptr, map->img.img_ptr);
 		if (map->window_ptr)
 			mlx_destroy_window(map->mlx_ptr, map->window_ptr);
 		if (map->mlx_ptr)
@@ -101,7 +111,8 @@ void	ft_mlx_pixel_put(t_map_info *map, int x, int y, int color)
 
 	if (x < 0 || x >= SCREEN_W || y < 0 || y >= SCREEN_H)
 		return ;
-	dst = map->addr + (y * map->line_len + x * (map->bits_per_pixel / 8));
+	dst = map->img.addr
+		+ (y * map->img.line_len + x * (map->img.bits_per_pixel / 8));
 	*(unsigned int *)dst = color;
 }
 
@@ -142,7 +153,8 @@ int	render_frame(t_map_info *map)
 	render_background(map);
 	// Draw the walls over the background
 	cast_rays(map);
-	mlx_put_image_to_window(map->mlx_ptr, map->window_ptr, map->img_ptr, 0, 0);
+	mlx_put_image_to_window(map->mlx_ptr, map->window_ptr, map->img.img_ptr,
+		0, 0);
 	return (0);
 }
 

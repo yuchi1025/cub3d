@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:03:05 by yucchen           #+#    #+#             */
-/*   Updated: 2026/02/19 15:44:56 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/02/20 19:43:17 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,54 +36,74 @@
 # define MOVE_SPEED 0.05
 # define ROT_SPEED 0.03
 
-typedef struct s_map_info
+typedef struct s_img
 {
-	int		file_height;
-	char	**lines;
-	int		no_cnt;
-	int		so_cnt;
-	int		we_cnt;
-	int		ea_cnt;
-	char	*no_path;
-	char	*so_path;
-	char	*we_path;
-	char	*ea_path;
-	int		floor_cnt;
-	int		ceil_cnt;
-	int		floor_color[3];
-	int		ceil_color[3];
-	int		map_start;
-	int		map_height;
-	char	**map_lines;
-	int		map_width;
-	char	**norm_map;
-	float	player_x;
-	float	player_y;
-	char	player_dir;
-
-	double	dir_x;
-	double	dir_y;
-	double	plane_x;
-	double	plane_y;
-
-	// MLX
-	void	*mlx_ptr;
-	void	*window_ptr;
-	// Image buffer variables
 	void	*img_ptr;
 	char	*addr;
 	int		bits_per_pixel;
 	int		line_len;
 	int		endian;
+}			t_img;
 
+typedef struct s_texture
+{
+	void	*img_ptr;
+	char	*addr;
+	int		width;
+	int		height;
+	int		bits_per_pixel;
+	int		line_len;
+	int		endian;
+}			t_texture;
+
+typedef struct s_map_info
+{
+	int			file_height;
+	char		**lines;
+	int			no_cnt;
+	int			so_cnt;
+	int			we_cnt;
+	int			ea_cnt;
+	char		*no_path;
+	char		*so_path;
+	char		*we_path;
+	char		*ea_path;
+	int			floor_cnt;
+	int			ceil_cnt;
+	int			floor_color[3];
+	int			ceil_color[3];
+	int			map_start;
+	int			map_height;
+	char		**map_lines;
+	int			map_width;
+	char		**norm_map;
+	float		player_x;
+	float		player_y;
+	char		player_dir;
+
+	double		dir_x;
+	double		dir_y;
+	double		plane_x;
+	double		plane_y;
+
+	// MLX
+	void		*mlx_ptr;
+	void		*window_ptr;
+	// Screen image buffer variables
+	t_img		img;
+	// Wall textures (XPM)
+	t_texture	no;
+	t_texture	so;
+	t_texture	we;
+	t_texture	ea;
 	// Movement flags
-	int		key_w;
-	int		key_a;
-	int		key_s;
-	int		key_d;
-	int		key_left;
-	int		key_right;
-}			t_map_info;
+	int			key_w;
+	int			key_a;
+	int			key_s;
+	int			key_d;
+	int			key_left;
+	int			key_right;
+}				t_map_info;
 
 typedef struct s_ray
 {
@@ -133,6 +153,9 @@ int		get_color(int rgb[3]);
 void	render_background(t_map_info *map);
 int		render_frame(t_map_info *map);
 void	start_game(t_map_info *map);
+
+// texture.c
+int		init_textures(t_map_info *map);
 
 // move_player.c
 void	move_player(t_map_info *map);

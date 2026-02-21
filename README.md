@@ -14,6 +14,7 @@ Main flow:
 - Initialize MLX (Window, Image, Loop hook)
 - Raycasting (Ray direction, Digital Differential Analysis, wall projection)
 - Movement (`W`, `A`, `S`, `D`), rotation(Left/Right), collision detection(Check the `norm_map[(int)y][(int)x]` before updating the position)
+- Load XPM, map texture to walls
 
 ## Parser Design
 The parser is implemented step by step.

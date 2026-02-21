@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:03:05 by yucchen           #+#    #+#             */
-/*   Updated: 2026/02/20 19:43:17 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/02/21 13:41:19 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,34 +107,38 @@ typedef struct s_map_info
 
 typedef struct s_ray
 {
-	double	camera_x;
-	double	ray_dir_x;
-	double	ray_dir_y;
+	double		camera_x;
+	double		ray_dir_x;
+	double		ray_dir_y;
 	// Current square of the map the ray is in
-	int		map_x;
-	int		map_y;
+	int			map_x;
+	int			map_y;
 	// Length of ray from one X/Y-side to next X/Y-side
-	double	delta_dist_x;
-	double	delta_dist_y;
+	double		delta_dist_x;
+	double		delta_dist_y;
 	// Length of ray from current pos to next X/Y-side
-	double	side_dist_x;
-	double	side_dist_y;
+	double		side_dist_x;
+	double		side_dist_y;
 	// Distance to the wall to prevent fish-eye
-	double	perp_wall_dist;
+	double		perp_wall_dist;
 	// Direction to step in X/Y (+1 or -1)
-	int		step_x;
-	int		step_y;
+	int			step_x;
+	int			step_y;
 	// Was a wall hit
-	int		hit;
+	int			hit;
 	// Was a NS(0) or EW(1) wall hit
-	int		side;
+	int			side;
 	// Height of the line to draw on screen
-	int		line_height;
+	int			line_height;
 	// Lowest pixel to fill in current stripe
-	int		draw_start;
+	int			draw_start;
 	// Highest pixel to fill in current stripe
-	int		draw_end;
-}			t_ray;
+	int			draw_end;
+	// Pointer to the exact texture being hit
+	t_texture	*current_tex;
+	// The X column of the texture
+	int			tex_x;
+}				t_ray;
 
 // file_check.c
 int		is_valid_map_file(char *path);
@@ -148,11 +152,14 @@ int		init_image(t_map_info *map);
 int		ft_close(t_map_info *map);
 int		ft_keypress(int keycode, t_map_info *map);
 int		ft_keyrelease(int keycode, t_map_info *map);
+void	start_game(t_map_info *map);
+
+// render.c
 void	ft_mlx_pixel_put(t_map_info *map, int x, int y, int color);
 int		get_color(int rgb[3]);
 void	render_background(t_map_info *map);
+void	draw_wall_stripe(t_map_info *map, t_ray *ray, int x);
 int		render_frame(t_map_info *map);
-void	start_game(t_map_info *map);
 
 // texture.c
 int		init_textures(t_map_info *map);

@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 09:57:23 by yucchen           #+#    #+#             */
-/*   Updated: 2026/02/19 15:59:29 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/02/21 15:07:54 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,22 +98,29 @@ void	calculate_wall_height(t_ray *ray)
 		ray->draw_end = SCREEN_H - 1;
 }
 
-void	draw_wall_stripe(t_map_info *map, t_ray *ray, int x)
+void	calculate_texture_x(t_ray *ray, t_map_info *map)
 {
-	int	y;
-	int	color;
+	double	wall_x; // Where the wall was hit
 
-	// TODO: Simple color for now
+	// Calculate value of wall_x
 	if (ray->side == 0)
-		color = 0xFF0000;
+		wall_x = map->player_y + ray->perp_wall_dist * ray->ray_dir_y;
 	else
-		color = 0xAA0000;
-	y = ray->draw_start;
-	while (y <= ray->draw_end)
-	{
-		ft_mlx_pixel_put(map, x, y, color);
-		y++;
-	}
+		wall_x = map->player_x + ray->perp_wall_dist * ray->ray_dir_x;
+	wall_x -= floor(wall_x);
+	if (ray->side == 1 && ray->ray_dir_y < 0)
+		ray->current_tex = &map->no;
+	else if (ray->side == 1 && ray->ray_dir_y > 0)
+		ray->current_tex = &map->so;
+	else if (ray->side == 0 && ray->ray_dir_x > 0)
+		ray->current_tex = &map->ea;
+	else
+		ray->current_tex = &map->we;
+	ray->tex_x = (int)(wall_x * (double)ray->current_tex->width);
+	if (ray->side == 0 && ray->ray_dir_x > 0)
+		ray->tex_x = ray->current_tex->width - ray->tex_x - 1;
+	if (ray->side == 1 && ray->ray_dir_y < 0)
+		ray->tex_x = ray->current_tex->width - ray->tex_x - 1;
 }
 
 void	cast_rays(t_map_info *map)
@@ -127,6 +134,7 @@ void	cast_rays(t_map_info *map)
 		init_ray(&ray, map, x);
 		perform_dda(&ray, map);
 		calculate_wall_height(&ray);
+		calculate_texture_x(&ray, map);
 		draw_wall_stripe(map, &ray, x);
 		x++;
 	}

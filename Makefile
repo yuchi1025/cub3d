@@ -6,7 +6,7 @@
 #    By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/03 10:21:25 by yucchen           #+#    #+#              #
-#    Updated: 2026/02/20 19:39:32 by yucchen          ###   ########.fr        #
+#    Updated: 2026/02/21 13:35:01 by yucchen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ MAKE = make
 NAME = cub3D
 SOURCES = file_check.c  \
 		  init_mlx.c    \
+		  render.c		\
 		  texture.c		\
 		  move_player.c \
 		  raycaster.c   \

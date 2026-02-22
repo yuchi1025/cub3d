@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:03:05 by yucchen           #+#    #+#             */
-/*   Updated: 2026/02/21 13:41:19 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/02/22 14:38:21 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,15 @@
 
 # define MOVE_SPEED 0.05
 # define ROT_SPEED 0.03
+
+// Minimap settings
+# define MM_SCALE 10
+# define MM_PLAYER_SIZE 4
+# define MM_WALL 0x808080	// Gray
+# define MM_FLOOR 0x000000	// Black
+# define MM_PLAYER 0xFF0000	// Red
+# define MM_DIR 0x00FF00	// Green
+# define MM_VIEW_LEN 10
 
 typedef struct s_img
 {
@@ -173,5 +182,8 @@ void	cast_rays(t_map_info *map);
 // TODO: Need to check
 // main.c
 void	free_map_info(t_map_info *map);
+
+// minimap.c
+void	draw_minimap(t_map_info *map);
 
 #endif

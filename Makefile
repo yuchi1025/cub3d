@@ -6,7 +6,7 @@
 #    By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/03 10:21:25 by yucchen           #+#    #+#              #
-#    Updated: 2026/02/21 13:35:01 by yucchen          ###   ########.fr        #
+#    Updated: 2026/02/22 13:54:27 by yucchen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SOURCES = file_check.c  \
 		  texture.c		\
 		  move_player.c \
 		  raycaster.c   \
+		  minimap.c		\
 		  main.c
 OBJECTS = $(SOURCES:.c=.o)
 

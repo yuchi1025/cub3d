@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:16:01 by yucchen           #+#    #+#             */
-/*   Updated: 2026/02/20 19:39:05 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/02/21 15:40:42 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ int	check_texture(char *id, char *path, t_map_info *map)
 	else if (ft_strcmp(id, "EA") == 0)
 		save_texture(&(map->ea_cnt), &(map->ea_path), path);
 	else
-		return (printf("Invalid id: %s\n", id), 0);
+		return (printf("Error: Invalid id %s\n", id), 0);
 	return (1);
 }
 
@@ -197,10 +197,10 @@ int	is_number_in_range(const char *str)
 	while (str[i])
 	{
 		if (str[i] < '0' || str[i] > '9')
-			return (printf("It's not a number\n"), 0);
+			return (printf("Error: It's not a number\n"), 0);
 		acc = acc * 10 + (str[i] - '0');
 		if (acc < 0 || acc > 255)
-			return (printf("Color out of range\n"), 0);
+			return (printf("Error: Color out of range\n"), 0);
 		i++;
 	}
 	return (1);
@@ -240,7 +240,7 @@ int	save_rgb(char *id, char **color, t_map_info *map)
 		n++;
 	}
 	if (n != 3)
-		return (printf("Only accept 3 numbers\n"), 0);
+		return (printf("Error: Only accept 3 numbers\n"), 0);
 	return (1);
 }
 
@@ -253,7 +253,7 @@ int	check_color(char *id, char *colors, t_map_info *map)
 	else if (ft_strcmp(id, "C") == 0)
 		(map->ceil_cnt)++;
 	else
-		return (printf("Invalid id: %s\n", id), 0);
+		return (printf("Error: Invalid id %s\n", id), 0);
 	if (!check_commas(colors))
 		return (0);
 	color = ft_split(colors, ',');
@@ -276,7 +276,7 @@ int	check_element(char *line, t_map_info *map)
 	while (token[n])
 		n++;
 	if (n != 2)
-		return (printf("Only accept 2 tokens\n"), free_split(token), 0);
+		return (printf("Error: Only accept 2 tokens\n"), free_split(token), 0);
 	if (ft_strlen(token[0]) == 2)
 	{
 		if (!check_texture(token[0], token[1], map))
@@ -288,7 +288,8 @@ int	check_element(char *line, t_map_info *map)
 			return (free_split(token), 0);
 	}
 	else
-		return (printf("Invalid id: %s\n", token[0]), free_split(token), 0);
+		return (printf("Error: Invalid id %s\n", token[0])
+			, free_split(token), 0);
 	return (free_split(token), 1);
 }
 
@@ -346,10 +347,10 @@ int	handle_config_mode(char *line, t_map_info *map, int i, int *in_map)
 		map->map_start = i;
 		*in_map = 1;
 		if (contain_open_tile(line))
-			return (printf("Invalid top row: %s\n", line), 0);
+			return (printf("Error: Invalid top row %s\n", line), 0);
 		return (1);
 	}
-	return (printf("Invalid line: %s\n", line), 0);
+	return (printf("Error: Invalid line %s\n", line), 0);
 }
 
 int	split_config_and_map(t_map_info *map)
@@ -369,13 +370,13 @@ int	split_config_and_map(t_map_info *map)
 				return (0);
 		}
 		else if (is_blank_line(line))
-			return (printf("No blank line allowed inside the map\n"), 0);
+			return (printf("Error: No blank line allowed inside the map\n"), 0);
 		else if (!is_map_line(line))
-			return (printf("Invalid map line\n"), 0);
+			return (printf("Error: Invalid map line\n"), 0);
 		i++;
 	}
 	if (!in_map)
-		return (printf("No map line\n"), 0);
+		return (printf("Error: No map line\n"), 0);
 	return (1);
 }
 
@@ -421,7 +422,7 @@ int	store_map_lines(t_map_info *map)
 	}
 	map->map_lines[i] = NULL;
 	if (contain_open_tile(map->map_lines[map->map_height - 1]))
-		return (printf("Invalid bottom row: %s\n"
+		return (printf("Error: Invalid bottom row %s\n"
 				, map->map_lines[map->map_height - 1]), 0);
 	return (1);
 }
@@ -446,12 +447,12 @@ int	compute_map_width(t_map_info *map)
 		line_width = ft_strlen(map->map_lines[i]);
 		if (is_open_tile(map->map_lines[i][0]))
 		{
-			printf("Invalid left column\n");
+			printf("Error: Invalid left column\n");
 			return (0);
 		}
 		if (is_open_tile(map->map_lines[i][line_width - 1]))
 		{
-			printf("Invalid right column\n");
+			printf("Error: Invalid right column\n");
 			return (0);
 		}
 		if (line_width > map->map_width)
@@ -527,7 +528,7 @@ void	fill_map(t_map_info *map)
 int	set_player(t_map_info *map, int i, int j, int *find_player)
 {
 	if (*find_player != 0)
-		return (printf("Only accept one player\n"), 0);
+		return (printf("Error: Only accept one player\n"), 0);
 	*find_player = 1;
 	map->player_x = j + 0.5;
 	map->player_y = i + 0.5;
@@ -559,7 +560,7 @@ int	check_player(t_map_info *map)
 		i++;
 	}
 	if (find_player == 0)
-		return (printf("No player\n"), 0);
+		return (printf("Error: No player\n"), 0);
 	return (1);
 }
 
@@ -592,7 +593,7 @@ int	check_map(t_map_info *map)
 			{
 				if (!check_neighbors(map, j, i))
 				{
-					printf("Invalid map\n");
+					printf("Error: Invalid map\n");
 					return (0);
 				}
 			}

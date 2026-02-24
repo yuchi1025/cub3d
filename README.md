@@ -5,7 +5,7 @@
 ## Description
 cub3D renders a 3D-like view using raycasting from a 2D map.
 
-**cub3D** is a graphic design project inspired by the world-famous Wolfenstein 3D game, which is considered the first FPS ever created.
+**cub3D** is a graphic design project inspired by the world-famous Wolfenstein 3D game, which is considered the first true First Person Shooter (FPS) ever created.
 
 The goal of this project is to create a "realistic" 3D graphical representation of the inside of a maze from a first-person perspective using the **Raycasting** principles.
 
@@ -16,7 +16,7 @@ Built with C and the **miniLibX** graphical library, this project serves as a de
 	- .cub format:
       - NO SO WE EA textures
       - F C colors
-      - closed map with one player (N/S/E/W)
+      - Closed map with one player (N/S/E/W)
 2. **Initialization:** Set up the player's position, direction vectors, and the camera plane.
 3. **MLX Setup:** Initialize the MiniLibX window, image buffers, and key/render hooks.
 4. **Raycasting:** Utilize the **Digital Differential Analysis (DDA)** to shoot rays, detect wall hits, and project distances to prevent fish-eye distortion.
@@ -24,9 +24,8 @@ Built with C and the **miniLibX** graphical library, this project serves as a de
 6. **Interaction:** Handle player movement (`W`, `A`, `S`, `D`), camera rotation(Left/Right)
 
 TODO:
-7. **Bonus:** Wall collisions detection(Check the `norm_map[(int)y][(int)x]` before updating the position), a minimap system, doors which can open and close, animated sprites, rotate the point of view with the mouse
+7. **Bonus:** Wall collisions detection (Check the `norm_map[(int)y][(int)x]` before updating the position), a minimap system, doors which can open and close, animated sprites, rotate the point of view with the mouse
 
-TODO:
 ## Instructions
 
 ### Compilation

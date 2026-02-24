@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:03:05 by yucchen           #+#    #+#             */
-/*   Updated: 2026/02/22 14:38:21 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/02/23 15:11:53 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 # include <math.h>
 
 // TODO: Screen width and height
-# define SCREEN_W 800
-# define SCREEN_H 600
+# define SCREEN_W 1280
+# define SCREEN_H 720
 
 # define KEY_ESC 65307
 # define KEY_LEFT 65361
@@ -69,6 +69,7 @@ typedef struct s_map_info
 {
 	int			file_height;
 	char		**lines;
+
 	int			no_cnt;
 	int			so_cnt;
 	int			we_cnt;
@@ -77,15 +78,19 @@ typedef struct s_map_info
 	char		*so_path;
 	char		*we_path;
 	char		*ea_path;
+
 	int			floor_cnt;
 	int			ceil_cnt;
 	int			floor_color[3];
 	int			ceil_color[3];
+
 	int			map_start;
 	int			map_height;
 	char		**map_lines;
 	int			map_width;
+
 	char		**norm_map;
+
 	float		player_x;
 	float		player_y;
 	char		player_dir;
@@ -174,6 +179,7 @@ int		render_frame(t_map_info *map);
 int		init_textures(t_map_info *map);
 
 // move_player.c
+void	rotate_player(t_map_info *map, double i);
 void	move_player(t_map_info *map);
 
 // raycaster.c
@@ -183,6 +189,7 @@ void	cast_rays(t_map_info *map);
 // main.c
 void	free_map_info(t_map_info *map);
 
+// Bonus
 // minimap.c
 void	draw_minimap(t_map_info *map);
 

@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:16:01 by yucchen           #+#    #+#             */
-/*   Updated: 2026/02/21 15:40:42 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/02/23 15:02:56 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ int	check_texture(char *id, char *path, t_map_info *map)
 	else if (ft_strcmp(id, "EA") == 0)
 		save_texture(&(map->ea_cnt), &(map->ea_path), path);
 	else
-		return (printf("Error: Invalid id %s\n", id), 0);
+		return (printf("Error: Invalid texture id %s\n", id), 0);
 	return (1);
 }
 
@@ -253,7 +253,7 @@ int	check_color(char *id, char *colors, t_map_info *map)
 	else if (ft_strcmp(id, "C") == 0)
 		(map->ceil_cnt)++;
 	else
-		return (printf("Error: Invalid id %s\n", id), 0);
+		return (printf("Error: Invalid color id %s\n", id), 0);
 	if (!check_commas(colors))
 		return (0);
 	color = ft_split(colors, ',');

@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 13:30:11 by yucchen           #+#    #+#             */
-/*   Updated: 2026/02/23 16:20:30 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/02/28 18:47:19 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,6 @@ void	ft_mlx_pixel_put(t_map_info *map, int x, int y, int color)
 	dst = map->img.addr
 		+ (y * map->img.line_len + x * (map->img.bits_per_pixel / 8));
 	*(unsigned int *)dst = color;
-}
-
-// The RGB Bitshift: rgb[0] = Red, rgb[1] = Green, rgb[2] = Blue
-int	get_color(int rgb[3])
-{
-	return ((rgb[0] << 16) | (rgb[1] << 8) | rgb[2]);
 }
 
 void	render_background(t_map_info *map)

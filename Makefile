@@ -6,7 +6,7 @@
 #    By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/03 10:21:25 by yucchen           #+#    #+#              #
-#    Updated: 2026/02/24 14:12:55 by yucchen          ###   ########.fr        #
+#    Updated: 2026/02/28 18:48:36 by yucchen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,23 +21,29 @@ NAME = cub3D
 NAME_BONUS = cub3D_bonus
 
 # Mandatory Sources (NO minimap, NO bonus files)
-SOURCES = file_check.c  \
-		  init_mlx.c    \
-		  render.c		\
-		  texture.c		\
-		  move_player.c \
-		  raycaster.c   \
+SOURCES = file_check.c  	\
+		  init_mlx.c    	\
+		  key_event.c		\
+		  render.c			\
+		  render_utils.c	\
+		  texture.c			\
+		  move_player.c 	\
+		  raycaster.c       \
+		  raycaster_utils.c \
 		  main.c
 OBJECTS = $(SOURCES:.c=.o)
 
 # Bonus Sources (Use the _bonus files and include minimap.c)
-BONUS_SOURCES = file_check.c     \
-		  		init_mlx_bonus.c \
-		  		render_bonus.c	 \
-		  		texture.c	     \
-		  		move_player.c    \
-		  		raycaster.c      \
-		  		minimap.c	     \
+BONUS_SOURCES = file_check.c      \
+		  		init_mlx_bonus.c  \
+				key_event.c		  \
+		  		render_bonus.c	  \
+				render_utils.c	  \
+		  		texture.c	      \
+		  		move_player.c     \
+		  		raycaster.c       \
+				raycaster_utils.c \
+		  		minimap.c	      \
 		  		main.c
 BONUS_OBJECTS = $(BONUS_SOURCES:.c=.o)
 

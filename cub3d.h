@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:03:05 by yucchen           #+#    #+#             */
-/*   Updated: 2026/02/23 15:11:53 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/02/28 18:49:07 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,21 +159,24 @@ int		is_valid_map_file(char *path);
 int		check_file_height(const char *path, t_map_info *map, char **storage);
 int		read_file(const char *path, t_map_info *map, char **storage);
 
-// TODO: Need to check
-// init_mlx.c
+// init_mlx.c or init_mlx_bonus.c
 int		init_window(t_map_info *map);
 int		init_image(t_map_info *map);
+void	start_game(t_map_info *map);
+
+// key_event.c
 int		ft_close(t_map_info *map);
 int		ft_keypress(int keycode, t_map_info *map);
 int		ft_keyrelease(int keycode, t_map_info *map);
-void	start_game(t_map_info *map);
 
 // render.c
 void	ft_mlx_pixel_put(t_map_info *map, int x, int y, int color);
-int		get_color(int rgb[3]);
 void	render_background(t_map_info *map);
 void	draw_wall_stripe(t_map_info *map, t_ray *ray, int x);
 int		render_frame(t_map_info *map);
+
+// render_utils.c
+int		get_color(int rgb[3]);
 
 // texture.c
 int		init_textures(t_map_info *map);
@@ -184,6 +187,9 @@ void	move_player(t_map_info *map);
 
 // raycaster.c
 void	cast_rays(t_map_info *map);
+
+// raycaster_utils.c
+void	calculate_step(t_ray *ray, t_map_info *map);
 
 // TODO: Need to check
 // main.c

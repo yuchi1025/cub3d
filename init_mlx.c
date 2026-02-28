@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:02:39 by yucchen           #+#    #+#             */
-/*   Updated: 2026/02/21 13:33:02 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/02/28 16:45:40 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,81 +26,18 @@ int	init_window(t_map_info *map)
 }
 
 // Create the image buffer
+// Create a blank image
+// Get the memory address of the image 
 int	init_image(t_map_info *map)
 {
-	// Create a blank image
 	map->img.img_ptr = mlx_new_image(map->mlx_ptr, SCREEN_W, SCREEN_H);
 	if (!map->img.img_ptr)
 		return (printf("Error: Image creation failed\n"), 0);
-	// Get the memory address of the image 
 	map->img.addr = mlx_get_data_addr(map->img.img_ptr,
 			&map->img.bits_per_pixel, &map->img.line_len, &map->img.endian);
 	if (!map->img.addr)
 		return (0);
 	return (1);
-}
-
-int	ft_close(t_map_info *map)
-{
-	if (map)
-	{
-		if (map->no.img_ptr)
-			mlx_destroy_image(map->mlx_ptr, map->no.img_ptr);
-		if (map->so.img_ptr)
-			mlx_destroy_image(map->mlx_ptr, map->so.img_ptr);
-		if (map->we.img_ptr)
-			mlx_destroy_image(map->mlx_ptr, map->we.img_ptr);
-		if (map->ea.img_ptr)
-			mlx_destroy_image(map->mlx_ptr, map->ea.img_ptr);
-		if (map->img.img_ptr)
-			mlx_destroy_image(map->mlx_ptr, map->img.img_ptr);
-		if (map->window_ptr)
-			mlx_destroy_window(map->mlx_ptr, map->window_ptr);
-		if (map->mlx_ptr)
-		{
-			mlx_destroy_display(map->mlx_ptr);
-			free(map->mlx_ptr);
-		}
-		free_map_info(map);
-	}
-	exit(0);
-	return (0);
-}
-
-int	ft_keypress(int keycode, t_map_info *map)
-{
-	if (keycode == KEY_ESC)
-		ft_close(map);
-	else if (keycode == KEY_W)
-		map->key_w = 1;
-	else if (keycode == KEY_A)
-		map->key_a = 1;
-	else if (keycode == KEY_S)
-		map->key_s = 1;
-	else if (keycode == KEY_D)
-		map->key_d = 1;
-	else if (keycode == KEY_LEFT)
-		map->key_left = 1;
-	else if (keycode == KEY_RIGHT)
-		map->key_right = 1;
-	return (0);
-}
-
-int	ft_keyrelease(int keycode, t_map_info *map)
-{
-	if (keycode == KEY_W)
-		map->key_w = 0;
-	else if (keycode == KEY_A)
-		map->key_a = 0;
-	else if (keycode == KEY_S)
-		map->key_s = 0;
-	else if (keycode == KEY_D)
-		map->key_d = 0;
-	else if (keycode == KEY_LEFT)
-		map->key_left = 0;
-	else if (keycode == KEY_RIGHT)
-		map->key_right = 0;
-	return (0);
 }
 
 void	start_game(t_map_info *map)

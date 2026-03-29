@@ -6,11 +6,11 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:02:39 by yucchen           #+#    #+#             */
-/*   Updated: 2026/02/28 16:49:50 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/03/29 12:27:03 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 // Initialize MLX and create the window
 int	init_window(t_map_info *map)

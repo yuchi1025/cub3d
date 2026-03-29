@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minimap.c                                          :+:      :+:    :+:   */
+/*   minimap_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 13:00:17 by yucchen           #+#    #+#             */
-/*   Updated: 2026/02/22 14:42:53 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/03/29 12:31:38 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 // Draw a filled square pixel by pixel
 void	draw_square(t_map_info *map, int x, int y, int color)

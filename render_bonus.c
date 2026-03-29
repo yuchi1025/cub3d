@@ -6,11 +6,11 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 13:30:11 by yucchen           #+#    #+#             */
-/*   Updated: 2026/02/28 18:47:57 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/03/29 12:28:03 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 // Calculate the exact memory address of the pixel
 // Write the color to that memory address

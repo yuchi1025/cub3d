@@ -6,7 +6,7 @@
 #    By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/03 10:21:25 by yucchen           #+#    #+#              #
-#    Updated: 2026/02/28 18:48:36 by yucchen          ###   ########.fr        #
+#    Updated: 2026/03/29 12:52:28 by yucchen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ MAKE = make
 NAME = cub3D
 NAME_BONUS = cub3D_bonus
 
-# Mandatory Sources (NO minimap, NO bonus files)
+# Mandatory Sources 
 SOURCES = file_check.c  	\
 		  init_mlx.c    	\
 		  key_event.c		\
@@ -32,8 +32,9 @@ SOURCES = file_check.c  	\
 		  raycaster_utils.c \
 		  main.c
 OBJECTS = $(SOURCES:.c=.o)
+HEADERS = cub3d.h
 
-# Bonus Sources (Use the _bonus files and include minimap.c)
+# Bonus Sources 
 BONUS_SOURCES = file_check.c      \
 		  		init_mlx_bonus.c  \
 				key_event.c		  \
@@ -43,9 +44,10 @@ BONUS_SOURCES = file_check.c      \
 		  		move_player.c     \
 		  		raycaster.c       \
 				raycaster_utils.c \
-		  		minimap.c	      \
+		  		minimap_bonus.c	  \
 		  		main.c
-BONUS_OBJECTS = $(BONUS_SOURCES:.c=.o)
+BONUS_OBJECTS = $(BONUS_SOURCES:.c=.bonus.o)
+BONUS_HEADERS = cub3d_bonus.h
 
 LIBFT_DIR = libft
 LIBFT_AR = $(LIBFT_DIR)/libft.a
@@ -53,12 +55,21 @@ LIBFT_AR = $(LIBFT_DIR)/libft.a
 MLX_DIR = minilibx-linux
 MLX_AR = $(MLX_DIR)/libmlx.a
 
+# Rules
 # Compile mandatory part
 all: $(NAME)
 
 $(NAME): $(OBJECTS) $(LIBFT_AR) $(MLX_AR)
 	$(CC) $(CFLAGS) $(OBJECTS) $(LIBFT_AR) $(MLX_AR) $(MLX_FLAGS) -o $(NAME)
 
+# Compile each .c into .o
+%.o: %.c $(HEADERS) 
+	$(CC) $(CFLAGS) -c $< -o $@
+
+%.bonus.o: %.c $(BONUS_HEADERS) 
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Build libft
 $(LIBFT_AR):
 	$(MAKE) -C $(LIBFT_DIR)
 

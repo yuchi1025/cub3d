@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:03:05 by yucchen           #+#    #+#             */
-/*   Updated: 2026/03/29 12:25:29 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/03/29 12:19:52 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#ifndef CUB3D_BONUS_H
+# define CUB3D_BONUS_H
 
 # include "./minilibx-linux/mlx.h"
 # include <stdio.h>
@@ -35,6 +35,15 @@
 
 # define MOVE_SPEED 0.05
 # define ROT_SPEED 0.03
+
+// Minimap settings
+# define MM_SCALE 10
+# define MM_PLAYER_SIZE 4
+# define MM_WALL 0x808080	// Gray
+# define MM_FLOOR 0x000000	// Black
+# define MM_PLAYER 0xFF0000	// Red
+# define MM_DIR 0x00FF00	// Green
+# define MM_VIEW_LEN 10
 
 typedef struct s_img
 {
@@ -150,7 +159,7 @@ int		is_valid_map_file(char *path);
 int		check_file_height(const char *path, t_map_info *map, char **storage);
 int		read_file(const char *path, t_map_info *map, char **storage);
 
-// init_mlx.c 
+// init_mlx_bonus.c
 int		init_window(t_map_info *map);
 int		init_image(t_map_info *map);
 void	start_game(t_map_info *map);
@@ -160,7 +169,7 @@ int		ft_close(t_map_info *map);
 int		ft_keypress(int keycode, t_map_info *map);
 int		ft_keyrelease(int keycode, t_map_info *map);
 
-// render.c 
+// render_bonus.c
 void	ft_mlx_pixel_put(t_map_info *map, int x, int y, int color);
 void	render_background(t_map_info *map);
 void	draw_wall_stripe(t_map_info *map, t_ray *ray, int x);
@@ -185,5 +194,8 @@ void	calculate_step(t_ray *ray, t_map_info *map);
 // TODO: Need to check
 // main.c
 void	free_map_info(t_map_info *map);
+
+// minimap_bonus.c
+void	draw_minimap(t_map_info *map);
 
 #endif

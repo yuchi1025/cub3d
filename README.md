@@ -20,10 +20,7 @@ Built with C and the **miniLibX** graphical library, this project serves as a de
 2. **Initialization:** Set up the player's position, direction vectors, and the camera plane.
 3. **MLX Setup:** Initialize the MiniLibX window, image buffers, and key/render hooks.
 4. **Raycasting:** Utilize the **Digital Differential Analysis (DDA)** to shoot rays, detect wall hits, and project distances to prevent fish-eye distortion.
-
-TODO: Add N/S/W/E char to know the direction
 5. **Rendering:** Load `.xpm` images and map texture to walls (North/South/East/West)
-
 6. **Interaction:** Handle player movement (`W`, `A`, `S`, `D`), camera rotation(Left/Right)
 
 TODO:
@@ -125,7 +122,6 @@ References
 
 ### How AI was used
 AI tools were used as a learning aid.
-- To learn 
 
 ## Notes (Norm, Valgrind)
 - This project follows the 42 Norm rules

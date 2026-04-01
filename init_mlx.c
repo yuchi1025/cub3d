@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:02:39 by yucchen           #+#    #+#             */
-/*   Updated: 2026/02/28 16:45:40 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/04/01 12:39:47 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ int	init_window(t_map_info *map)
 {
 	map->mlx_ptr = mlx_init();
 	if (!map->mlx_ptr)
-		return (printf("Error: MLX init failed\n"), 0);
+		return (printf("Error\nMLX init failed\n"), 0);
 	map->window_ptr = mlx_new_window(map->mlx_ptr, SCREEN_W, SCREEN_H, "cub3D");
 	if (!map->window_ptr)
-		return (printf("Error: Window creation failed\n"),
+		return (printf("Error\nWindow creation failed\n"),
 			mlx_destroy_display(map->mlx_ptr), free(map->mlx_ptr), 0);
 	return (1);
 }
@@ -32,7 +32,7 @@ int	init_image(t_map_info *map)
 {
 	map->img.img_ptr = mlx_new_image(map->mlx_ptr, SCREEN_W, SCREEN_H);
 	if (!map->img.img_ptr)
-		return (printf("Error: Image creation failed\n"), 0);
+		return (printf("Error\nImage creation failed\n"), 0);
 	map->img.addr = mlx_get_data_addr(map->img.img_ptr,
 			&map->img.bits_per_pixel, &map->img.line_len, &map->img.endian);
 	if (!map->img.addr)

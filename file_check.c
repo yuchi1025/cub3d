@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 10:15:19 by yucchen           #+#    #+#             */
-/*   Updated: 2026/02/17 16:02:10 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/04/01 12:26:43 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	is_valid_map_file(char *path)
 	int		fd;
 
 	if (!path || path[0] == '\0')
-		return (printf("Error: Empty path\n"), 0);
+		return (printf("Error\nEmpty path\n"), 0);
 	map = ft_strrchr(path, '/');
 	if (map)
 		map++;
@@ -29,7 +29,7 @@ int	is_valid_map_file(char *path)
 		map = path;
 	len = ft_strlen(map);
 	if (len < 5 || ft_strncmp(map + len - 4, ".cub", 4) != 0)
-		return (printf("Error: Map should in format *.cub\n"), 0);
+		return (printf("Error\nMap should in format *.cub\n"), 0);
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
 		return (perror("open error"), 0);
@@ -56,7 +56,7 @@ int	check_file_height(const char *path, t_map_info *map, char **storage)
 	}
 	close(fd);
 	if (map->file_height == 0)
-		return (printf("Error: Empty file\n"), 0);
+		return (printf("Error\nEmpty file\n"), 0);
 	return (1);
 }
 
@@ -73,7 +73,7 @@ int	read_file(const char *path, t_map_info *map, char **storage)
 		return (perror("open error"), 0);
 	map->lines = malloc((map->file_height + 1) * sizeof(char *));
 	if (!map->lines)
-		return (printf("Error: Malloc failed\n"), 0);
+		return (printf("Error\nMalloc failed\n"), 0);
 	next_line = get_next_line(fd, storage);
 	while (next_line)
 	{

@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:16:01 by yucchen           #+#    #+#             */
-/*   Updated: 2026/02/23 15:02:56 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/04/01 16:09:07 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 //	int		fd;
 //
 //	if (!path || path[0] == '\0')
-//		return (printf("Error: Empty path\n"), 0);
+//		return (printf("Error\nEmpty path\n"), 0);
 //	map = ft_strrchr(path, '/');
 //	if (map)
 //		map++;
@@ -29,7 +29,7 @@
 //		map = path;
 //	len = ft_strlen(map);
 //	if (len < 5 || ft_strncmp(map + len - 4, ".cub", 4) != 0)
-//		return (printf("Error: Map should in format *.cub\n"), 0);
+//		return (printf("Error\nMap should in format *.cub\n"), 0);
 //	fd = open(path, O_RDONLY);
 //	if (fd == -1)
 //		return (perror("open error"), 0);
@@ -56,7 +56,7 @@
 //	}
 //	close(fd);
 //	if (map->file_height == 0)
-//		return (printf("Error: Empty file\n"), 0);
+//		return (printf("Error\nEmpty file\n"), 0);
 //	return (1);
 //}
 
@@ -73,7 +73,7 @@
 //		return (perror("open error"), 0);
 //	map->lines = malloc((map->file_height + 1) * sizeof(char *));
 //	if (!map->lines)
-//		return (printf("Error: Malloc failed\n"), 0);
+//		return (printf("Error\nMalloc failed\n"), 0);
 //	next_line = get_next_line(fd, storage);
 //	while (next_line)
 //	{
@@ -162,7 +162,7 @@ int	check_texture(char *id, char *path, t_map_info *map)
 	else if (ft_strcmp(id, "EA") == 0)
 		save_texture(&(map->ea_cnt), &(map->ea_path), path);
 	else
-		return (printf("Error: Invalid texture id %s\n", id), 0);
+		return (printf("Error\nInvalid texture id %s\n", id), 0);
 	return (1);
 }
 
@@ -197,10 +197,10 @@ int	is_number_in_range(const char *str)
 	while (str[i])
 	{
 		if (str[i] < '0' || str[i] > '9')
-			return (printf("Error: It's not a number\n"), 0);
+			return (printf("Error\nIt's not a number\n"), 0);
 		acc = acc * 10 + (str[i] - '0');
 		if (acc < 0 || acc > 255)
-			return (printf("Error: Color out of range\n"), 0);
+			return (printf("Error\nColor out of range\n"), 0);
 		i++;
 	}
 	return (1);
@@ -220,7 +220,7 @@ int	check_commas(char *colors)
 		i++;
 	}
 	if (comma_cnt != 2)
-		return (printf("Error: Colors only accept 2 commas\n"), 0);
+		return (printf("Error\nColors only accept 2 commas\n"), 0);
 	return (1);
 }
 
@@ -240,7 +240,7 @@ int	save_rgb(char *id, char **color, t_map_info *map)
 		n++;
 	}
 	if (n != 3)
-		return (printf("Error: Only accept 3 numbers\n"), 0);
+		return (printf("Error\nOnly accept 3 numbers\n"), 0);
 	return (1);
 }
 
@@ -253,12 +253,12 @@ int	check_color(char *id, char *colors, t_map_info *map)
 	else if (ft_strcmp(id, "C") == 0)
 		(map->ceil_cnt)++;
 	else
-		return (printf("Error: Invalid color id %s\n", id), 0);
+		return (printf("Error\nInvalid color id %s\n", id), 0);
 	if (!check_commas(colors))
 		return (0);
 	color = ft_split(colors, ',');
 	if (!color)
-		return (printf("Error: Malloc failed\n"), 0);
+		return (printf("Error\nMalloc failed\n"), 0);
 	if (!save_rgb(id, color, map))
 		return (free_split(color), 0);
 	return (free_split(color), 1);
@@ -271,12 +271,12 @@ int	check_element(char *line, t_map_info *map)
 
 	token = ft_split(line, ' ');
 	if (!token)
-		return (printf("Error: Malloc failed\n"), 0);
+		return (printf("Error\nMalloc failed\n"), 0);
 	n = 0;
 	while (token[n])
 		n++;
 	if (n != 2)
-		return (printf("Error: Only accept 2 tokens\n"), free_split(token), 0);
+		return (printf("Error\nOnly accept 2 tokens\n"), free_split(token), 0);
 	if (ft_strlen(token[0]) == 2)
 	{
 		if (!check_texture(token[0], token[1], map))
@@ -288,7 +288,7 @@ int	check_element(char *line, t_map_info *map)
 			return (free_split(token), 0);
 	}
 	else
-		return (printf("Error: Invalid id %s\n", token[0])
+		return (printf("Error\nInvalid id %s\n", token[0])
 			, free_split(token), 0);
 	return (free_split(token), 1);
 }
@@ -347,10 +347,10 @@ int	handle_config_mode(char *line, t_map_info *map, int i, int *in_map)
 		map->map_start = i;
 		*in_map = 1;
 		if (contain_open_tile(line))
-			return (printf("Error: Invalid top row %s\n", line), 0);
+			return (printf("Error\nInvalid top row %s\n", line), 0);
 		return (1);
 	}
-	return (printf("Error: Invalid line %s\n", line), 0);
+	return (printf("Error\nInvalid line %s\n", line), 0);
 }
 
 int	split_config_and_map(t_map_info *map)
@@ -370,13 +370,13 @@ int	split_config_and_map(t_map_info *map)
 				return (0);
 		}
 		else if (is_blank_line(line))
-			return (printf("Error: No blank line allowed inside the map\n"), 0);
+			return (printf("Error\nNo blank line allowed inside the map\n"), 0);
 		else if (!is_map_line(line))
-			return (printf("Error: Invalid map line\n"), 0);
+			return (printf("Error\nInvalid map line %s\n", line), 0);
 		i++;
 	}
 	if (!in_map)
-		return (printf("Error: No map line\n"), 0);
+		return (printf("Error\nNo map line\n"), 0);
 	return (1);
 }
 
@@ -384,17 +384,17 @@ int	split_config_and_map(t_map_info *map)
 int	is_valid_element_count(t_map_info *map)
 {
 	if (map->no_cnt != 1)
-		return (printf("Error: Invalid tex_NO count: %d\n", map->no_cnt), 0);
+		return (printf("Error\nInvalid tex_NO count: %d\n", map->no_cnt), 0);
 	if (map->so_cnt != 1)
-		return (printf("Error: Invalid tex_SO count: %d\n", map->so_cnt), 0);
+		return (printf("Error\nInvalid tex_SO count: %d\n", map->so_cnt), 0);
 	if (map->we_cnt != 1)
-		return (printf("Error: Invalid tex_WE count: %d\n", map->we_cnt), 0);
+		return (printf("Error\nInvalid tex_WE count: %d\n", map->we_cnt), 0);
 	if (map->ea_cnt != 1)
-		return (printf("Error: Invalid tex_EA count: %d\n", map->ea_cnt), 0);
+		return (printf("Error\nInvalid tex_EA count: %d\n", map->ea_cnt), 0);
 	if (map->floor_cnt != 1)
-		return (printf("Error: Invalid floor count: %d\n", map->floor_cnt), 0);
+		return (printf("Error\nInvalid floor count: %d\n", map->floor_cnt), 0);
 	if (map->ceil_cnt != 1)
-		return (printf("Error: Invalid ceil count: %d\n", map->ceil_cnt), 0);
+		return (printf("Error\nInvalid ceil count: %d\n", map->ceil_cnt), 0);
 	return (1);
 }
 
@@ -409,7 +409,7 @@ int	store_map_lines(t_map_info *map)
 	map->map_lines = malloc((map->map_height + 1) * sizeof(char *));
 	if (!map->map_lines)
 	{
-		printf("Error: Malloc failed\n");
+		printf("Error\nMalloc failed\n");
 		return (0);
 	}
 	i = 0;
@@ -422,7 +422,7 @@ int	store_map_lines(t_map_info *map)
 	}
 	map->map_lines[i] = NULL;
 	if (contain_open_tile(map->map_lines[map->map_height - 1]))
-		return (printf("Error: Invalid bottom row %s\n"
+		return (printf("Error\nInvalid bottom row %s\n"
 				, map->map_lines[map->map_height - 1]), 0);
 	return (1);
 }
@@ -447,12 +447,12 @@ int	compute_map_width(t_map_info *map)
 		line_width = ft_strlen(map->map_lines[i]);
 		if (is_open_tile(map->map_lines[i][0]))
 		{
-			printf("Error: Invalid left column\n");
+			printf("Error\nInvalid left column\n");
 			return (0);
 		}
 		if (is_open_tile(map->map_lines[i][line_width - 1]))
 		{
-			printf("Error: Invalid right column\n");
+			printf("Error\nInvalid right column\n");
 			return (0);
 		}
 		if (line_width > map->map_width)
@@ -483,14 +483,14 @@ int	create_map(t_map_info *map)
 
 	map->norm_map = malloc((map->map_height + 1) * sizeof(char *));
 	if (!map->norm_map)
-		return (printf("Error: Malloc failed\n"), 0);
+		return (printf("Error\nMalloc failed\n"), 0);
 	i = 0;
 	while (i < map->map_height)
 	{
 		map->norm_map[i] = malloc(map->map_width + 1);
 		if (!map->norm_map[i])
 			return (ft_free_array(map->norm_map, i)
-				, printf("Error: Malloc failed\n"), 0);
+				, printf("Error\nMalloc failed\n"), 0);
 		j = 0;
 		while (j < map->map_width)
 		{
@@ -528,7 +528,7 @@ void	fill_map(t_map_info *map)
 int	set_player(t_map_info *map, int i, int j, int *find_player)
 {
 	if (*find_player != 0)
-		return (printf("Error: Only accept one player\n"), 0);
+		return (printf("Error\nOnly accept one player\n"), 0);
 	*find_player = 1;
 	map->player_x = j + 0.5;
 	map->player_y = i + 0.5;
@@ -560,7 +560,7 @@ int	check_player(t_map_info *map)
 		i++;
 	}
 	if (find_player == 0)
-		return (printf("Error: No player\n"), 0);
+		return (printf("Error\nNo player\n"), 0);
 	return (1);
 }
 
@@ -593,7 +593,7 @@ int	check_map(t_map_info *map)
 			{
 				if (!check_neighbors(map, j, i))
 				{
-					printf("Error: Invalid map\n");
+					printf("Error\nInvalid map\n");
 					return (0);
 				}
 			}
@@ -652,7 +652,7 @@ int	main(int argc, char **argv)
 	ret = 1;
 	storage = NULL;
 	if (argc != 2)
-		return (printf("Error: Expected exactly one map path\n"), 1);
+		return (printf("Error\nExpected exactly one map path\n"), 1);
 	if (!is_valid_map_file(argv[1])
 		|| !check_file_height(argv[1], &map, &storage))
 		return (1);

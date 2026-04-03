@@ -6,14 +6,14 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:16:01 by yucchen           #+#    #+#             */
-/*   Updated: 2026/04/01 16:09:07 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/04/03 15:48:17 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "cub3d.h"
 
-//// Step 1 - File validation
+//// Step 1 - File Validation
 //int	is_valid_map_file(char *path)
 //{
 //	char	*map;
@@ -37,7 +37,7 @@
 //	return (1);
 //}
 
-//// Step 2 - Read file into lines
+//// Step 2 - Read File into Lines
 //int	check_file_height(const char *path, t_map_info *map, char **storage)
 //{
 //	int		fd;
@@ -89,7 +89,7 @@
 //	return (1);
 //}
 
-// Step 3 - Parse configuration lines, locate map start & parse map lines
+// Step 3 - Parse Configuration Lines, Locate Map Start & Parse Map Lines
 /* 
 isspace()
     Check for white-space characters: 
@@ -108,7 +108,7 @@ int	is_blank_line(char *line)
 	return (0);
 }
 
-// Parse config lines 
+// Parse Config Lines 
 int	start_with_id(char *line, char *id)
 {
 	int	len;
@@ -126,6 +126,23 @@ int	is_config_line(char *line)
 		|| start_with_id(line, "F") || start_with_id(line, "C"))
 		return (1);
 	return (0);
+}
+
+void	free_split(char **array)
+{
+	int	cnt;
+	int	i;
+
+	cnt = 0;
+	i = 0;
+	while (array[cnt])
+		cnt++;
+	while (i < cnt)
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array);
 }
 
 int	ft_strcmp(const char *s1, const char *s2)
@@ -166,21 +183,22 @@ int	check_texture(char *id, char *path, t_map_info *map)
 	return (1);
 }
 
-void	free_split(char **array)
+int	check_commas(char *colors)
 {
-	int	cnt;
 	int	i;
+	int	comma_cnt;
 
-	cnt = 0;
 	i = 0;
-	while (array[cnt])
-		cnt++;
-	while (i < cnt)
+	comma_cnt = 0;
+	while (colors[i])
 	{
-		free(array[i]);
+		if (colors[i] == ',')
+			comma_cnt++;
 		i++;
 	}
-	free(array);
+	if (comma_cnt != 2)
+		return (printf("Error\nColors only accept 2 commas\n"), 0);
+	return (1);
 }
 
 int	is_number_in_range(const char *str)
@@ -203,24 +221,6 @@ int	is_number_in_range(const char *str)
 			return (printf("Error\nColor out of range\n"), 0);
 		i++;
 	}
-	return (1);
-}
-
-int	check_commas(char *colors)
-{
-	int	i;
-	int	comma_cnt;
-
-	i = 0;
-	comma_cnt = 0;
-	while (colors[i])
-	{
-		if (colors[i] == ',')
-			comma_cnt++;
-		i++;
-	}
-	if (comma_cnt != 2)
-		return (printf("Error\nColors only accept 2 commas\n"), 0);
 	return (1);
 }
 
@@ -293,11 +293,11 @@ int	check_element(char *line, t_map_info *map)
 	return (free_split(token), 1);
 }
 
-// Locate map start
+// Locate Map Start
 int	is_map_char(char c)
 {
 	if (c == ' ' || c == '0' || c == '1' || c == 'N'
-		|| c == 'S' || c == 'E' || c == 'W')
+		|| c == 'S' || c == 'W' || c == 'E')
 		return (1);
 	return (0);
 }
@@ -324,14 +324,14 @@ int	contain_open_tile(char *line)
 	while (line[i])
 	{
 		if (line[i] == '0' || line[i] == 'N' || line[i] == 'S'
-			|| line[i] == 'E' || line[i] == 'W')
+			|| line[i] == 'W' || line[i] == 'E')
 			return (1);
 		i++;
 	}
 	return (0);
 }
 
-// Check if the top row contains any `0`, `N`, `S`, `E`, `W` -> fail
+// Check if the top row contains any `0`, `N`, `S`, `W`, `E` -> fail
 int	handle_config_mode(char *line, t_map_info *map, int i, int *in_map)
 {
 	if (is_blank_line(line))
@@ -380,7 +380,7 @@ int	split_config_and_map(t_map_info *map)
 	return (1);
 }
 
-// Step 4 - Check configuration identifiers count 
+// Step 4 - Check Configuration Identifiers Count 
 int	is_valid_element_count(t_map_info *map)
 {
 	if (map->no_cnt != 1)
@@ -398,8 +398,8 @@ int	is_valid_element_count(t_map_info *map)
 	return (1);
 }
 
-// Step 5 - Collect map lines
-// Check if the bottom row contains any `0`, `N`, `S`, `E`, `W` -> fail
+// Step 5 - Collect Map Lines
+// Check if the bottom row contains any `0`, `N`, `S`, `W`, `E` -> fail
 int	store_map_lines(t_map_info *map)
 {
 	int	i;
@@ -427,15 +427,15 @@ int	store_map_lines(t_map_info *map)
 	return (1);
 }
 
-// Step 6 - Compute map dimensions
+// Step 6 - Compute Map Dimensions
 int	is_open_tile(char c)
 {
-	if (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W')
+	if (c == '0' || c == 'N' || c == 'S' || c == 'W' || c == 'E')
 		return (1);
 	return (0);
 }
 
-// Check if the first/last column contains any `0`, `N`, `S`, `E`, `W` -> fail
+// Check if the first/last column contains any `0`, `N`, `S`, `W`, `E` -> fail
 int	compute_map_width(t_map_info *map)
 {
 	int	i;
@@ -524,7 +524,7 @@ void	fill_map(t_map_info *map)
 	}
 }
 
-// Step 8 - Player extraction
+// Step 8 - Player Extraction
 int	set_player(t_map_info *map, int i, int j, int *find_player)
 {
 	if (*find_player != 0)
@@ -550,7 +550,7 @@ int	check_player(t_map_info *map)
 		j = 0;
 		while (j < map->map_width)
 		{
-			if (ft_strchr("NSEW", map->norm_map[i][j]))
+			if (ft_strchr("NSWE", map->norm_map[i][j]))
 			{
 				if (!set_player(map, i, j, &find_player))
 					return (0);
@@ -564,7 +564,7 @@ int	check_player(t_map_info *map)
 	return (1);
 }
 
-// Step 9 - Map validation
+// Step 9 - Map Validation
 int	check_neighbors(t_map_info *map, int x, int y)
 {
 	if (y > 0 && map->norm_map[y - 1][x] == ' ')
@@ -605,6 +605,8 @@ int	check_map(t_map_info *map)
 }
 
 // The camera plane is always perpendicular (90 degrees) to the direction vector
+// Two vectors are perpendicular if their dot product is 0
+// Camera plane's length (0.66) controls the field of view (around 66°)
 void	set_math_vectors(t_map_info *map, double dx, double dy)
 {
 	map->dir_x = dx;
@@ -619,10 +621,10 @@ void	init_player_dir(t_map_info *map)
 		set_math_vectors(map, 0.0, -1.0);
 	else if (map->player_dir == 'S')
 		set_math_vectors(map, 0.0, 1.0);
-	else if (map->player_dir == 'E')
-		set_math_vectors(map, 1.0, 0.0);
 	else if (map->player_dir == 'W')
 		set_math_vectors(map, -1.0, 0.0);
+	else if (map->player_dir == 'E')
+		set_math_vectors(map, 1.0, 0.0);
 }
 
 void	free_map_info(t_map_info *map)

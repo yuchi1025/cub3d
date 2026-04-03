@@ -6,14 +6,14 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 10:15:19 by yucchen           #+#    #+#             */
-/*   Updated: 2026/04/01 12:26:43 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/04/02 11:05:59 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "cub3d.h"
 
-// Step 1 - File validation
+// Step 1 - File Validation
 int	is_valid_map_file(char *path)
 {
 	char	*map;
@@ -37,7 +37,7 @@ int	is_valid_map_file(char *path)
 	return (1);
 }
 
-// Step 2 - Read file into lines
+// Step 2 - Read File into Lines
 int	check_file_height(const char *path, t_map_info *map, char **storage)
 {
 	int		fd;

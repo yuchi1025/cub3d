@@ -16,11 +16,16 @@ Built with C and the **miniLibX** graphical library, this project serves as a de
 	- .cub format:
       - NO SO WE EA textures
       - F C colors
-      - Closed map with one player (N/S/E/W)
+      - Closed map with one player (N/S/W/E)
 2. **Initialization:** Set up the player's position, direction vectors, and the camera plane.
+	- The camera plane is always perpendicular (90 degrees) to the direction vector
+		- Two vectors are perpendicular if their dot product is 0
+		- Camera plane's length (0.66) controls the field of view (around 66°) 
+			- `0.66` is not mathematically required
+			- It is just a good-looking FOV constant that became the standard in Wolfenstein-style raycasters
 3. **MLX Setup:** Initialize the MiniLibX window, image buffers, and key/render hooks.
 4. **Raycasting:** Utilize the **Digital Differential Analysis (DDA)** to shoot rays, detect wall hits, and project distances to prevent fish-eye distortion.
-5. **Rendering:** Load `.xpm` images and map texture to walls (North/South/East/West)
+5. **Rendering:** Load `.xpm` images and map texture to walls (North/South/West/East)
 6. **Interaction:** Handle player movement (`W`, `A`, `S`, `D`), camera rotation(Left/Right)
 
 TODO:
@@ -37,7 +42,7 @@ make
 ### Execution
 Run the executable with a valid map file passed as an argument:
 ```bash
-./cub3D maps/valid/normal_rectangle.cub
+./cub3D maps/valid/small_N.cub
 ```
 
 ### Controls
@@ -56,8 +61,10 @@ The parser is implemented step by step.
 Each step validates its input before moving to the next step.
 If any step fails, the program safely frees allocated memory, prints a descriptive error, and exits.
 
-### Step 1 - File Validation
+### Step 0 - Check Argument Count
 - Check argument count (`argc == 2`)
+
+### Step 1 - File Validation
 - Verify the `.cub` file extension
 - Ensure the file can be opened
 
@@ -66,12 +73,12 @@ If any step fails, the program safely frees allocated memory, prints a descripti
 - Strip trailing newline (`\n`)
 - Store into `char **lines`
 
-### Step 3 - Parse Configuration Lines, locate map start & parse map lines
+### Step 3 - Parse Configuration Lines, Locate Map Start & Parse Map Lines
 - Skip blank lines
 - Parse the 6 required identifiers in any order
 	- Textures (`NO`, `SO`, `WE`, `EA`) and check the file paths
 	- Colors (`F`, `C`) and ensure exactly 3 values in the range `[0,255]`
-- First line containing map tiles (`1`, `0`, `N`, `S`, `E`, `W`) marks `map_start`
+- First line containing map tiles (` `, `0`, `1`, `N`, `S`, `W`, `E`) marks `map_start`
 - No blank lines allowed inside the map
 - No configuration lines after the map starts
 - Only valid map characters are allowed
@@ -94,17 +101,17 @@ If any step fails, the program safely frees allocated memory, prints a descripti
 - Preserve original layout
 
 ### Step 8 - Player Extraction
-- Locate exactly one player (`N`, `S`, `E` , `W`)
+- Locate exactly one player (`N`, `S`, `W`, `E`)
 - Store player position at tile center (`+0.5`) and direction
 - Replace player tile with `'0'`
 
-### Step 9 - Map Validation (Wall Check)
+### Step 9 - Map Validation 
 - Ensure the map is closed by walls
 	- Border checks
-		- If the top row contains any `0`, `N`, `S`, `E`, `W` -> fail (Step 3)
-		- If the bottom row contains any `0`, `N`, `S`, `E`, `W` -> fail (Step 5)
-		- If the first column contains any `0`, `N`, `S`, `E`, `W` -> fail (Step 6)
-		- If the last column contains any `0`, `N`, `S`, `E`, `W` -> fail (Step 6)
+		- If the top row contains any `0`, `N`, `S`, `W`, `E` -> fail (Step 3)
+		- If the bottom row contains any `0`, `N`, `S`, `W`, `E` -> fail (Step 5)
+		- If the first column contains any `0`, `N`, `S`, `W`, `E` -> fail (Step 6)
+		- If the last column contains any `0`, `N`, `S`, `W`, `E` -> fail (Step 6)
 	- Neighbor checks
 		- For every `'0'`, check its 4 neighbors != ' '
 			- (x, y)
@@ -113,7 +120,6 @@ If any step fails, the program safely frees allocated memory, prints a descripti
 			- West: Left (x - 1, y)
 			- East: Right (x + 1, y)
 
-TODO:
 ## Resources
 References
 - Lode's Computer Graphics Tutorial: Raycasting (https://lodev.org/cgtutor/raycasting.html)
@@ -127,5 +133,5 @@ AI tools were used as a learning aid.
 - This project follows the 42 Norm rules
 - Memory and file descriptor leaks checked with **Valgrind**
 ```bash
-valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes ./cub3D maps/valid/normal_rectangle.cub
+valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes ./cub3D maps/valid/small_N.cub
 ```

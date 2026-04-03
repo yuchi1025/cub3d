@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:02:39 by yucchen           #+#    #+#             */
-/*   Updated: 2026/04/01 12:36:46 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/04/03 17:36:50 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,16 @@ int	init_image(t_map_info *map)
 {
 	map->img.img_ptr = mlx_new_image(map->mlx_ptr, SCREEN_W, SCREEN_H);
 	if (!map->img.img_ptr)
-		return (printf("Error\nImage creation failed\n"), 0);
+		return (printf("Error\nImage creation failed\n"),
+			mlx_destroy_window(map->mlx_ptr, map->window_ptr),
+			mlx_destroy_display(map->mlx_ptr), free(map->mlx_ptr), 0);
 	map->img.addr = mlx_get_data_addr(map->img.img_ptr,
 			&map->img.bits_per_pixel, &map->img.line_len, &map->img.endian);
 	if (!map->img.addr)
-		return (0);
+		return (printf("Error\nGet image data failed\n"),
+			mlx_destroy_image(map->mlx_ptr, map->img.img_ptr),
+			mlx_destroy_window(map->mlx_ptr, map->window_ptr),
+			mlx_destroy_display(map->mlx_ptr), free(map->mlx_ptr), 0);
 	return (1);
 }
 

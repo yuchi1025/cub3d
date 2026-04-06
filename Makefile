@@ -6,7 +6,7 @@
 #    By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/03 10:21:25 by yucchen           #+#    #+#              #
-#    Updated: 2026/03/29 12:52:28 by yucchen          ###   ########.fr        #
+#    Updated: 2026/04/06 15:25:43 by yucchen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,31 +20,41 @@ MAKE = make
 NAME = cub3D
 NAME_BONUS = cub3D_bonus
 
-# Mandatory Sources 
-SOURCES = file_check.c  	\
-		  init_mlx.c    	\
-		  key_event.c		\
-		  render.c			\
-		  render_utils.c	\
-		  texture.c			\
-		  move_player.c 	\
-		  raycaster.c       \
-		  raycaster_utils.c \
+# Mandatory Sources
+SOURCES = file_check.c		  \
+		  parsing_config.c    \
+		  parsing_map.c		  \
+		  parsing_utils.c	  \
+		  color_utils.c		  \
+		  map_validation.c	  \
+		  map_normalization.c \
+		  init_mlx.c    	  \
+		  key_event.c		  \
+		  render.c			  \
+		  texture.c			  \
+		  move_player.c 	  \
+		  raycaster.c         \
+		  raycaster_utils.c   \
 		  main.c
 OBJECTS = $(SOURCES:.c=.o)
 HEADERS = cub3d.h
 
-# Bonus Sources 
-BONUS_SOURCES = file_check.c      \
-		  		init_mlx_bonus.c  \
-				key_event.c		  \
-		  		render_bonus.c	  \
-				render_utils.c	  \
-		  		texture.c	      \
-		  		move_player.c     \
-		  		raycaster.c       \
-				raycaster_utils.c \
-		  		minimap_bonus.c	  \
+# Bonus Sources
+BONUS_SOURCES = file_check.c		\
+				parsing_config.c	\
+				parsing_map.c		\
+				parsing_utils.c		\
+				color_utils.c		\
+				map_validation.c	\
+				map_normalization.c \
+		  		init_mlx_bonus.c	\
+				key_event.c			\
+		  		render_bonus.c		\
+		  		texture.c			\
+		  		move_player.c		\
+		  		raycaster.c			\
+				raycaster_utils.c	\
+		  		minimap_bonus.c		\
 		  		main.c
 BONUS_OBJECTS = $(BONUS_SOURCES:.c=.bonus.o)
 BONUS_HEADERS = cub3d_bonus.h

@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:03:05 by yucchen           #+#    #+#             */
-/*   Updated: 2026/04/05 14:46:23 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/04/06 15:28:06 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,36 @@ int		is_valid_map_file(char *path);
 int		check_file_height(const char *path, t_map_info *map, char **storage);
 int		read_file(const char *path, t_map_info *map, char **storage);
 
+// parsing_config.c
+int		check_element(char *line, t_map_info *map);
+
+// parsing_map.c
+int		split_config_and_map(t_map_info *map);
+int		store_map_lines(t_map_info *map);
+
+// parsing_utils.c
+int		is_blank_line(char *line);
+int		is_config_line(char *line);
+void	free_split(char **array);
+int		ft_strcmp(const char *s1, const char *s2);
+
+// color_utils.c
+int		check_commas(char *colors);
+int		is_number_in_range(const char *str);
+int		get_color(int rgb[3]);
+
+// map_validation.c
+int		contain_open_tile(char *line);
+int		is_valid_element_count(t_map_info *map);
+int		is_open_tile(char c);
+int		check_map(t_map_info *map);
+
+// map_normalization.c
+int		compute_map_width(t_map_info *map);
+int		create_map(t_map_info *map);
+void	fill_map(t_map_info *map);
+int		check_player(t_map_info *map);
+
 // init_mlx.c 
 int		init_window(t_map_info *map);
 int		init_image(t_map_info *map);
@@ -166,9 +196,6 @@ void	render_background(t_map_info *map);
 void	draw_wall_stripe(t_map_info *map, t_ray *ray, int x);
 int		render_frame(t_map_info *map);
 
-// render_utils.c
-int		get_color(int rgb[3]);
-
 // texture.c
 int		init_textures(t_map_info *map);
 
@@ -182,8 +209,8 @@ void	cast_rays(t_map_info *map);
 // raycaster_utils.c
 void	calculate_step(t_ray *ray, t_map_info *map);
 
-// TODO: Need to check
 // main.c
+void	ft_free_array(char **array, int count);
 void	free_map_info(t_map_info *map);
 
 #endif

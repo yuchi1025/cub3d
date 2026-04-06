@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:02:39 by yucchen           #+#    #+#             */
-/*   Updated: 2026/04/04 10:44:20 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/04/06 12:09:20 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	init_image(t_map_info *map)
 			mlx_destroy_image(map->mlx_ptr, map->img.img_ptr),
 			map->img.img_ptr = NULL,
 			mlx_destroy_window(map->mlx_ptr, map->window_ptr),
-			map->window_ptr = NULL,	mlx_destroy_display(map->mlx_ptr),
+			map->window_ptr = NULL, mlx_destroy_display(map->mlx_ptr),
 			free(map->mlx_ptr), map->mlx_ptr = NULL, 0);
 	return (1);
 }

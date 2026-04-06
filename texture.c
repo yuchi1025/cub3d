@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 19:30:22 by yucchen           #+#    #+#             */
-/*   Updated: 2026/04/03 18:14:36 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/04/06 12:09:54 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	init_textures(t_map_info *map)
 	if (!load_texture(map, &map->we, map->we_path))
 		return (printf("Error\nLoad WE failed\n"),
 			mlx_destroy_image(map->mlx_ptr, map->no.img_ptr),
-			map->no.img_ptr = NULL, 
+			map->no.img_ptr = NULL,
 			mlx_destroy_image(map->mlx_ptr, map->so.img_ptr),
 			map->so.img_ptr = NULL, 0);
 	if (!load_texture(map, &map->ea, map->ea_path))

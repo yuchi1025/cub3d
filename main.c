@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:16:01 by yucchen           #+#    #+#             */
-/*   Updated: 2026/04/03 15:48:17 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/04/05 12:18:17 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,7 @@ int	check_texture(char *id, char *path, t_map_info *map)
 	else if (ft_strcmp(id, "EA") == 0)
 		save_texture(&(map->ea_cnt), &(map->ea_path), path);
 	else
-		return (printf("Error\nInvalid texture id %s\n", id), 0);
+		return (printf("Error\nInvalid texture id \"%s\"\n", id), 0);
 	return (1);
 }
 
@@ -253,7 +253,7 @@ int	check_color(char *id, char *colors, t_map_info *map)
 	else if (ft_strcmp(id, "C") == 0)
 		(map->ceil_cnt)++;
 	else
-		return (printf("Error\nInvalid color id %s\n", id), 0);
+		return (printf("Error\nInvalid color id \"%s\"\n", id), 0);
 	if (!check_commas(colors))
 		return (0);
 	color = ft_split(colors, ',');
@@ -276,7 +276,7 @@ int	check_element(char *line, t_map_info *map)
 	while (token[n])
 		n++;
 	if (n != 2)
-		return (printf("Error\nOnly accept 2 tokens\n"), free_split(token), 0);
+		return (printf("Error\nWrong element info\n"), free_split(token), 0);
 	if (ft_strlen(token[0]) == 2)
 	{
 		if (!check_texture(token[0], token[1], map))
@@ -288,8 +288,8 @@ int	check_element(char *line, t_map_info *map)
 			return (free_split(token), 0);
 	}
 	else
-		return (printf("Error\nInvalid id %s\n", token[0])
-			, free_split(token), 0);
+		return (printf("Error\nInvalid id \"%s\"\n", token[0]),
+			free_split(token), 0);
 	return (free_split(token), 1);
 }
 
@@ -347,10 +347,10 @@ int	handle_config_mode(char *line, t_map_info *map, int i, int *in_map)
 		map->map_start = i;
 		*in_map = 1;
 		if (contain_open_tile(line))
-			return (printf("Error\nInvalid top row %s\n", line), 0);
+			return (printf("Error\nInvalid top row \"%s\"\n", line), 0);
 		return (1);
 	}
-	return (printf("Error\nInvalid line %s\n", line), 0);
+	return (printf("Error\nInvalid line \"%s\"\n", line), 0);
 }
 
 int	split_config_and_map(t_map_info *map)
@@ -372,7 +372,7 @@ int	split_config_and_map(t_map_info *map)
 		else if (is_blank_line(line))
 			return (printf("Error\nNo blank line allowed inside the map\n"), 0);
 		else if (!is_map_line(line))
-			return (printf("Error\nInvalid map line %s\n", line), 0);
+			return (printf("Error\nInvalid map line \"%s\"\n", line), 0);
 		i++;
 	}
 	if (!in_map)
@@ -422,8 +422,8 @@ int	store_map_lines(t_map_info *map)
 	}
 	map->map_lines[i] = NULL;
 	if (contain_open_tile(map->map_lines[map->map_height - 1]))
-		return (printf("Error\nInvalid bottom row %s\n"
-				, map->map_lines[map->map_height - 1]), 0);
+		return (printf("Error\nInvalid bottom row \"%s\"\n",
+				map->map_lines[map->map_height - 1]), 0);
 	return (1);
 }
 
@@ -489,8 +489,8 @@ int	create_map(t_map_info *map)
 	{
 		map->norm_map[i] = malloc(map->map_width + 1);
 		if (!map->norm_map[i])
-			return (ft_free_array(map->norm_map, i)
-				, printf("Error\nMalloc failed\n"), 0);
+			return (ft_free_array(map->norm_map, i),
+				printf("Error\nMalloc failed\n"), 0);
 		j = 0;
 		while (j < map->map_width)
 		{
@@ -528,7 +528,7 @@ void	fill_map(t_map_info *map)
 int	set_player(t_map_info *map, int i, int j, int *find_player)
 {
 	if (*find_player != 0)
-		return (printf("Error\nOnly accept one player\n"), 0);
+		return (printf("Error\nOnly one player allowed\n"), 0);
 	*find_player = 1;
 	map->player_x = j + 0.5;
 	map->player_y = i + 0.5;
@@ -560,7 +560,7 @@ int	check_player(t_map_info *map)
 		i++;
 	}
 	if (find_player == 0)
-		return (printf("Error\nNo player\n"), 0);
+		return (printf("Error\nNo player found\n"), 0);
 	return (1);
 }
 

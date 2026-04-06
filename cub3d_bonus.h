@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:03:05 by yucchen           #+#    #+#             */
-/*   Updated: 2026/03/29 18:09:07 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/04/05 12:46:54 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@
 # define KEY_S 115 
 # define KEY_D 100 
 
-# define MOVE_SPEED 0.03
-# define ROT_SPEED 0.02
+# define MOVE_SPEED 0.01
+# define ROT_SPEED 0.01
 
 // Minimap settings
 # define MM_SCALE 10

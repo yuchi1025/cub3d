@@ -22,7 +22,7 @@ Built with C and the **miniLibX** graphical library, this project serves as a de
 		- Two vectors are perpendicular if their dot product is 0
 		- Camera plane's length (0.66) controls the field of view (around 66°) 
 			- `0.66` is not mathematically required
-			- It is just a good-looking FOV constant that became the standard in Wolfenstein-style raycasters
+			- It is just an optimal FOV constant that became the standard in Wolfenstein-style raycasters
 3. **MLX Setup:** Initialize the MiniLibX window, image buffers, and key/render hooks.
 4. **Raycasting:** Utilize the **Digital Differential Analysis (DDA)** to shoot rays, detect wall hits, and project distances to prevent fish-eye distortion.
 5. **Rendering:** Load `.xpm` images and map texture to walls (North/South/West/East)

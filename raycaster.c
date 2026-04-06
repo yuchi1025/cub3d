@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 09:57:23 by yucchen           #+#    #+#             */
-/*   Updated: 2026/02/28 17:55:14 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/04/05 14:44:27 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,15 @@ void	perform_dda(t_ray *ray, t_map_info *map)
 	{
 		if (ray->side_dist_x < ray->side_dist_y)
 		{
-			ray->side_dist_x += ray->delta_dist_x;
 			ray->map_x += ray->step_x;
 			ray->side = 0;
+			ray->side_dist_x += ray->delta_dist_x;
 		}
 		else
 		{
-			ray->side_dist_y += ray->delta_dist_y;
 			ray->map_y += ray->step_y;
 			ray->side = 1;
+			ray->side_dist_y += ray->delta_dist_y;
 		}
 		if (map->norm_map[ray->map_y][ray->map_x] == '1')
 			ray->hit = 1;

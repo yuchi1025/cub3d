@@ -24,6 +24,15 @@ Built with C and the **miniLibX** graphical library, this project serves as a de
 			- `0.66` is not mathematically required
 			- It is just an optimal FOV constant that became the standard in Wolfenstein-style raycasters
 3. **MLX Setup:** Initialize the MiniLibX window, image buffers, and key/render hooks.
+	- `mlx_loop_hook()` registers a function that MLX will call repeatedly while the event loop is running
+		- Difference from `mlx_hook()`:
+		```bash
+		mlx_hook      -> called only when an event happens
+		(For key press/release, mouse, close)
+
+		mlx_loop_hook -> called every frame
+		(For movement + rendering every frame)
+		```
 4. **Raycasting:** Utilize the **Digital Differential Analysis (DDA)** to shoot rays, detect wall hits, and project distances to prevent fish-eye distortion.
 5. **Rendering:** Load `.xpm` images and map texture to walls (North/South/West/East)
 6. **Interaction:** Handle player movement (`W`, `A`, `S`, `D`), camera rotation(Left/Right)

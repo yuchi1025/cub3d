@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:03:05 by yucchen           #+#    #+#             */
-/*   Updated: 2026/04/06 15:28:06 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/04/07 18:27:10 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,7 +192,6 @@ int		ft_keyrelease(int keycode, t_map_info *map);
 
 // render.c 
 void	ft_mlx_pixel_put(t_map_info *map, int x, int y, int color);
-void	render_background(t_map_info *map);
 void	draw_wall_stripe(t_map_info *map, t_ray *ray, int x);
 int		render_frame(t_map_info *map);
 

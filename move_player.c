@@ -6,14 +6,14 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 14:45:05 by yucchen           #+#    #+#             */
-/*   Updated: 2026/02/19 15:58:35 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/04/07 17:04:20 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 // Move forward/backward if no wall in front of/behind
-void	move_forward_backward(t_map_info *map, double move_speed)
+static void	move_forward_backward(t_map_info *map, double move_speed)
 {
 	double	new_x;
 	double	new_y;
@@ -27,7 +27,7 @@ void	move_forward_backward(t_map_info *map, double move_speed)
 }
 
 // Move left/right if no wall
-void	move_left_right(t_map_info *map, double move_speed)
+static void	move_left_right(t_map_info *map, double move_speed)
 {
 	double	new_x;
 	double	new_y;

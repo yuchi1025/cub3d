@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 13:30:11 by yucchen           #+#    #+#             */
-/*   Updated: 2026/02/28 18:47:19 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/04/07 18:28:22 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ft_mlx_pixel_put(t_map_info *map, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-void	render_background(t_map_info *map)
+static void	render_background(t_map_info *map)
 {
 	int	x;
 	int	y;
@@ -93,7 +93,6 @@ int	render_frame(t_map_info *map)
 {
 	move_player(map);
 	render_background(map);
-	// Draw the walls over the background
 	cast_rays(map);
 	mlx_put_image_to_window(map->mlx_ptr, map->window_ptr, map->img.img_ptr,
 		0, 0);

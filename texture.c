@@ -6,13 +6,13 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 19:30:22 by yucchen           #+#    #+#             */
-/*   Updated: 2026/04/06 12:09:54 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/04/07 16:46:43 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	load_texture(t_map_info *map, t_texture *tex, char *path)
+static int	load_texture(t_map_info *map, t_texture *tex, char *path)
 {
 	tex->img_ptr = mlx_xpm_file_to_image(map->mlx_ptr,
 			path, &tex->width, &tex->height);

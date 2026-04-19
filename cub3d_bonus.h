@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:03:05 by yucchen           #+#    #+#             */
-/*   Updated: 2026/04/19 14:25:43 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/04/19 15:12:37 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,8 @@ typedef struct s_map_info
 	int			key_d;
 	int			key_left;
 	int			key_right;
+	// Mouse movement
+	int			mouse_prev_x;
 }				t_map_info;
 
 typedef struct s_ray

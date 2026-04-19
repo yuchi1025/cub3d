@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:02:39 by yucchen           #+#    #+#             */
-/*   Updated: 2026/04/03 17:36:50 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/04/19 15:21:02 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,33 +45,28 @@ int	init_image(t_map_info *map)
 	return (1);
 }
 
-// How far did the mouse move from the center
-// Multiply by a small decimal so the camera doesn't spin wildly
-// Force the mouse back to the center
 int	handle_mouse(int x, int y, t_map_info *map)
 {
 	int	delta_x;
 
-	(void)y;
-	delta_x = x - (SCREEN_W / 2);
+	if (x > SCREEN_W || y > SCREEN_H)
+		return (0);
+	delta_x = x - map->mouse_prev_x;
 	if (delta_x != 0)
-	{
-		rotate_player(map, delta_x * 0.05);
-		mlx_mouse_move(map->mlx_ptr, map->window_ptr,
-			SCREEN_W / 2, SCREEN_H / 2);
-	}
+		rotate_player(map, delta_x);
+	map->mouse_prev_x = x;
 	return (0);
 }
 
 void	start_game(t_map_info *map)
 {
+	map->mouse_prev_x = (int)(SCREEN_W / 2);
 	mlx_hook(map->window_ptr, DestroyNotify, StructureNotifyMask, ft_close,
 		map);
 	mlx_hook(map->window_ptr, KeyPress, KeyPressMask, ft_keypress, map);
 	mlx_hook(map->window_ptr, KeyRelease, KeyReleaseMask, ft_keyrelease, map);
 	mlx_hook(map->window_ptr, MotionNotify, PointerMotionMask, handle_mouse,
 		map);
-	mlx_mouse_hide(map->mlx_ptr, map->window_ptr);
 	mlx_loop_hook(map->mlx_ptr, render_frame, map);
 	mlx_loop(map->mlx_ptr);
 }

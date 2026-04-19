@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:03:05 by yucchen           #+#    #+#             */
-/*   Updated: 2026/04/07 18:27:31 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/04/19 14:25:43 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,20 @@
 # define ROT_SPEED 0.01
 
 // Minimap settings
-# define MM_SCALE 10
-# define MM_PLAYER_SIZE 4
-# define MM_WALL 0x808080	// Gray
-# define MM_FLOOR 0x000000	// Black
-# define MM_PLAYER 0xFF0000	// Red
-# define MM_DIR 0x00FF00	// Green
+# define MM_X_MAX 360
+# define MM_Y_MAX 240
+# define MM_WALL 0x6d6b6e	// Light Brown
+# define MM_FLOOR 0xe0dae3	// Beige
+# define MM_SPACE 0x343236	// Dark Brown
+# define MM_PLAYER 0x51b6db	// Teal
+# define MM_DIR 0x2d5bcf	// Blue
 # define MM_VIEW_LEN 10
+
+typedef struct s_mini
+{
+	int	mm_scale;
+	int	player_scale;
+}	t_mini;
 
 typedef struct s_img
 {
@@ -222,6 +229,7 @@ void	ft_free_array(char **array, int count);
 void	free_map_info(t_map_info *map);
 
 // minimap_bonus.c
-void	draw_minimap(t_map_info *map);
+void	initialize_mm(t_mini *mini, t_map_info *map);
+void	draw_minimap(t_map_info *map, t_mini *mini);
 
 #endif

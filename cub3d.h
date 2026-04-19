@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:03:05 by yucchen           #+#    #+#             */
-/*   Updated: 2026/04/07 18:27:10 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/04/18 17:13:53 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ typedef struct s_ray
 	int			step_y;
 	// Was a wall hit
 	int			hit;
-	// Was a NS(0) or WE(1) wall hit
+	// Was a NS(1) or WE(0) wall hit
 	int			side;
 	// Height of the line to draw on screen
 	int			line_height;

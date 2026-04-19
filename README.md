@@ -36,6 +36,11 @@ Built with C and the **miniLibX** graphical library, this project serves as a de
 4. **Raycasting:** Utilize the **Digital Differential Analysis (DDA)** to shoot rays, detect wall hits, and project distances to prevent fish-eye distortion.
 5. **Rendering:** Load `.xpm` images and map texture to walls (North/South/West/East)
 6. **Interaction:** Handle player movement (`W`, `A`, `S`, `D`), camera rotation(Left/Right)
+	- To rotate a vector, multiply with the rotation matrix
+	```bash
+	[ new_x ]   [ cos(a) -sin(a) ] [ x ]
+	[ new_y ] = [ sin(a)  cos(a) ] [ y ]
+	```
 
 TODO:
 7. **Bonus:** Wall collisions detection (Check the `norm_map[(int)y][(int)x]` before updating the position), a minimap system, doors which can open and close, animated sprites, rotate the point of view with the mouse

@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 13:30:11 by yucchen           #+#    #+#             */
-/*   Updated: 2026/04/07 18:28:31 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/04/19 12:58:58 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,13 @@ void	draw_wall_stripe(t_map_info *map, t_ray *ray, int x)
 
 int	render_frame(t_map_info *map)
 {
+	t_mini	mini;
+
+	initialize_mm(&mini, map);
 	move_player(map);
 	render_background(map);
 	cast_rays(map);
-	draw_minimap(map);
+	draw_minimap(map, &mini);
 	mlx_put_image_to_window(map->mlx_ptr, map->window_ptr, map->img.img_ptr,
 		0, 0);
 	return (0);

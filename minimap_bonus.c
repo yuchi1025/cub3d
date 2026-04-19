@@ -6,59 +6,83 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 13:00:17 by yucchen           #+#    #+#             */
-/*   Updated: 2026/03/29 12:31:38 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/04/19 14:23:48 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
+void	initialize_mm(t_mini *mini, t_map_info *map)
+{
+	int	scale_x;
+	int	scale_y;
+
+	scale_x = floor(MM_X_MAX / map->map_width);
+	scale_y = floor(MM_Y_MAX / map->map_height);
+	if (scale_x < scale_y)
+		mini->mm_scale = scale_x;
+	else
+		mini->mm_scale = scale_y;
+	mini->player_scale = (int)(mini->mm_scale / 3);
+}
+
 // Draw a filled square pixel by pixel
-void	draw_square(t_map_info *map, int x, int y, int color)
+void	draw_square(t_map_info *map, t_mini *mini, int x, int y)
 {
 	int	i;
 	int	j;
+	int	color;
 
 	i = 0;
-	while (i < MM_SCALE)
+	if (map->norm_map[y][x] == '0')
+		color = MM_FLOOR;
+	else if (map->norm_map[y][x] == '1')
+		color = MM_WALL;
+	else if (map->norm_map[y][x] == ' ')
+		color = MM_SPACE;
+	while (i < mini->mm_scale)
 	{
 		j = 0;
-		while (j < MM_SCALE)
+		while (j < mini->mm_scale)
 		{
-			ft_mlx_pixel_put(map, x + j, y + i, color);
+			ft_mlx_pixel_put(map, (x * mini->mm_scale) + j,
+				(y * mini->mm_scale) + i, color);
 			j++;
 		}
 		i++;
 	}
 }
 
-void	draw_player(t_map_info *map, int x, int y, int color)
+void	draw_player(t_map_info *map, int x, int y, t_mini *mini)
 {
 	int	i;
 	int	j;
 
 	i = 0;
-	while (i < MM_PLAYER_SIZE)
+	while (i < mini->player_scale * 2)
 	{
 		j = 0;
-		while (j < MM_PLAYER_SIZE)
+		while (j < mini->player_scale * 2)
 		{
-			ft_mlx_pixel_put(map, x + j, y + i, color);
+			if (pow(j - mini->player_scale, 2) + pow(i - mini->player_scale, 2)
+				<= pow(mini->player_scale, 2))
+				ft_mlx_pixel_put(map, x + j, y + i, MM_PLAYER);
 			j++;
 		}
 		i++;
 	}
 }
 
-void	draw_player_dir(t_map_info *map)
+void	draw_player_dir(t_map_info *map, t_mini *mini)
 {
 	double	x;
 	double	y;
 	int		i;
 
-	x = map->player_x * MM_SCALE;
-	y = map->player_y * MM_SCALE;
+	x = (map->player_x - 0.25) * mini->mm_scale + mini->player_scale / 2;
+	y = (map->player_y - 0.25) * mini->mm_scale + mini->player_scale / 2;
 	i = 0;
-	while (i < MM_VIEW_LEN)
+	while (i < mini->player_scale * 1.5)
 	{
 		ft_mlx_pixel_put(map, x, y, MM_DIR);
 		x += map->dir_x;
@@ -70,8 +94,8 @@ void	draw_player_dir(t_map_info *map)
 // Draw the 2D map on top of the 3D view
 // map->player_x/y represent the exact center of the player
 // ft_mlx_pixel_put draws starting from the top-left corner
-// -> fix this by shifing point up and left
-void	draw_minimap(t_map_info *map)
+// -> fix this by shifting point up and left
+void	draw_minimap(t_map_info *map, t_mini *mini)
 {
 	int	x;
 	int	y;
@@ -82,15 +106,13 @@ void	draw_minimap(t_map_info *map)
 		x = 0;
 		while (x < map->map_width)
 		{
-			if (map->norm_map[y][x] == '0')
-				draw_square(map, x * MM_SCALE, y * MM_SCALE, MM_FLOOR);
-			else if (map->norm_map[y][x] == '1')
-				draw_square(map, x * MM_SCALE, y * MM_SCALE, MM_WALL);
+			draw_square(map, mini, x, y);
 			x++;
 		}
 		y++;
 	}
-	draw_player(map, (map->player_x * MM_SCALE) - (MM_PLAYER_SIZE / 2),
-		(map->player_y * MM_SCALE) - (MM_PLAYER_SIZE / 2), MM_PLAYER);
-	draw_player_dir(map);
+	draw_player(map, ((map->player_x - 0.25) * mini->mm_scale)
+		- (mini->player_scale / 2), ((map->player_y - 0.25) * mini->mm_scale)
+		- (mini->player_scale / 2), mini);
+	draw_player_dir(map, mini);
 }

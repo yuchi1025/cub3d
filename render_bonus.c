@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 13:30:11 by yucchen           #+#    #+#             */
-/*   Updated: 2026/04/19 12:58:58 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/04/21 20:54:02 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	render_background(t_map_info *map)
 	}
 }
 
-int	get_texture_pixel(t_texture *tex, int x, int y)
+static int	get_texture_pixel(t_texture *tex, int x, int y)
 {
 	char	*pixel;
 
@@ -66,6 +66,8 @@ int	get_texture_pixel(t_texture *tex, int x, int y)
 	return (*(unsigned int *)pixel);
 }
 
+// How much to increase the texture coordinate per screen pixel
+// Starting texture coordinate
 void	draw_wall_stripe(t_map_info *map, t_ray *ray, int x)
 {
 	int		y;
@@ -74,9 +76,7 @@ void	draw_wall_stripe(t_map_info *map, t_ray *ray, int x)
 	double	step;
 	double	tex_pos;
 
-	// How much to increase the texture coordinate per screen pixel
 	step = 1.0 * ray->current_tex->height / ray->line_height;
-	// Starting texture coordinate
 	tex_pos = (ray->draw_start - SCREEN_H / 2 + ray->line_height / 2) * step;
 	y = ray->draw_start;
 	while (y <= ray->draw_end)
@@ -93,10 +93,10 @@ int	render_frame(t_map_info *map)
 {
 	t_mini	mini;
 
-	initialize_mm(&mini, map);
 	move_player(map);
 	render_background(map);
 	cast_rays(map);
+	initialize_mm(map, &mini);
 	draw_minimap(map, &mini);
 	mlx_put_image_to_window(map->mlx_ptr, map->window_ptr, map->img.img_ptr,
 		0, 0);

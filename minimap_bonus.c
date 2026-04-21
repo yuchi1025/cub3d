@@ -6,13 +6,13 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 13:00:17 by yucchen           #+#    #+#             */
-/*   Updated: 2026/04/19 14:23:48 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/04/21 19:48:17 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-void	initialize_mm(t_mini *mini, t_map_info *map)
+void	initialize_mm(t_map_info *map, t_mini *mini)
 {
 	int	scale_x;
 	int	scale_y;
@@ -27,7 +27,7 @@ void	initialize_mm(t_mini *mini, t_map_info *map)
 }
 
 // Draw a filled square pixel by pixel
-void	draw_square(t_map_info *map, t_mini *mini, int x, int y)
+static void	draw_square(t_map_info *map, t_mini *mini, int x, int y)
 {
 	int	i;
 	int	j;
@@ -53,7 +53,7 @@ void	draw_square(t_map_info *map, t_mini *mini, int x, int y)
 	}
 }
 
-void	draw_player(t_map_info *map, int x, int y, t_mini *mini)
+static void	draw_player(t_map_info *map, t_mini *mini, int x, int y)
 {
 	int	i;
 	int	j;
@@ -73,7 +73,7 @@ void	draw_player(t_map_info *map, int x, int y, t_mini *mini)
 	}
 }
 
-void	draw_player_dir(t_map_info *map, t_mini *mini)
+static void	draw_player_dir(t_map_info *map, t_mini *mini)
 {
 	double	x;
 	double	y;
@@ -111,8 +111,8 @@ void	draw_minimap(t_map_info *map, t_mini *mini)
 		}
 		y++;
 	}
-	draw_player(map, ((map->player_x - 0.25) * mini->mm_scale)
+	draw_player(map, mini, ((map->player_x - 0.25) * mini->mm_scale)
 		- (mini->player_scale / 2), ((map->player_y - 0.25) * mini->mm_scale)
-		- (mini->player_scale / 2), mini);
+		- (mini->player_scale / 2));
 	draw_player_dir(map, mini);
 }

@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:03:05 by yucchen           #+#    #+#             */
-/*   Updated: 2026/04/19 15:12:37 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/04/21 19:46:22 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include <X11/keysymdef.h>
 # include <math.h>
 
-// TODO: Screen width and height
 # define SCREEN_W 1280
 # define SCREEN_H 720
 
@@ -44,7 +43,6 @@
 # define MM_SPACE 0x343236	// Dark Brown
 # define MM_PLAYER 0x51b6db	// Teal
 # define MM_DIR 0x2d5bcf	// Blue
-# define MM_VIEW_LEN 10
 
 typedef struct s_mini
 {
@@ -149,7 +147,7 @@ typedef struct s_ray
 	int			step_y;
 	// Was a wall hit
 	int			hit;
-	// Was a NS(0) or EW(1) wall hit
+	// Was a NS(1) or WE(0) wall hit
 	int			side;
 	// Height of the line to draw on screen
 	int			line_height;
@@ -231,7 +229,7 @@ void	ft_free_array(char **array, int count);
 void	free_map_info(t_map_info *map);
 
 // minimap_bonus.c
-void	initialize_mm(t_mini *mini, t_map_info *map);
+void	initialize_mm(t_map_info *map, t_mini *mini);
 void	draw_minimap(t_map_info *map, t_mini *mini);
 
 #endif

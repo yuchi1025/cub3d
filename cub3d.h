@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:03:05 by yucchen           #+#    #+#             */
-/*   Updated: 2026/04/18 17:13:53 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/04/21 18:44:09 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include <X11/keysymdef.h>
 # include <math.h>
 
-// TODO: Screen width and height
 # define SCREEN_W 1280
 # define SCREEN_H 720
 

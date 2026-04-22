@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster_utils_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
+/*   By: sileow <sileow@student.42singapore.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 17:53:18 by yucchen           #+#    #+#             */
-/*   Updated: 2026/04/21 21:06:20 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/04/22 17:41:09 by sileow           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,27 @@ void	calculate_step(t_ray *ray, t_map_info *map)
 		ray->step_y = 1;
 		ray->side_dist_y = (ray->map_y + 1.0 - map->player_y)
 			* ray->delta_dist_y;
+	}
+}
+
+void	decide_wall(t_ray *ray, t_map_info *map)
+{
+	if (ray->side == 1)
+	{
+		if (ray->ray_dir_y > 0)
+			ray->current_tex = &map->so;
+		else if ((map->frame_count / 100) % 2)
+			ray->current_tex = &map->no;
+		else
+			ray->current_tex = &map->n_lit;
+	}
+	else
+	{
+		if ((map->frame_count / 60) % 2)
+			ray->current_tex = &map->ew_off;
+		else if (ray->ray_dir_x > 0)
+			ray->current_tex = &map->ea;
+		else
+			ray->current_tex = &map->we;
 	}
 }

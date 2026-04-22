@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
+/*   By: sileow <sileow@student.42singapore.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:03:05 by yucchen           #+#    #+#             */
-/*   Updated: 2026/04/22 13:38:43 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/04/22 17:42:23 by sileow           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,8 @@ typedef struct s_map_info
 	t_texture	so;
 	t_texture	we;
 	t_texture	ea;
-	t_texture	close;
+	t_texture	ew_off;
+	t_texture	n_lit;
 
 	int			frame_count;
 
@@ -227,6 +228,7 @@ void	cast_rays(t_map_info *map);
 
 // raycaster_utils.c
 void	calculate_step(t_ray *ray, t_map_info *map);
+void	decide_wall(t_ray *ray, t_map_info *map);
 
 // main.c
 void	ft_free_array(char **array, int count);

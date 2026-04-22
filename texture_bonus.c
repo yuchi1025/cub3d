@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
+/*   By: sileow <sileow@student.42singapore.sg>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 19:30:22 by yucchen           #+#    #+#             */
-/*   Updated: 2026/04/22 14:09:08 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/04/22 17:00:16 by sileow           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,14 @@ int	init_textures(t_map_info *map)
 		return (printf("Error\nLoad EA failed\n"),
 			destroy_texture(map, &map->no), destroy_texture(map, &map->so),
 			destroy_texture(map, &map->we), 0);
-	if (!load_texture(map, &map->close, "./textures/close.xpm"))
-		return (printf("Error\nLoad close failed\n"),
+	if (!load_texture(map, &map->ew_off, "./textures/ew_off.xpm"))
+		return (printf("Error\nLoad ew_off failed\n"),
 			destroy_texture(map, &map->no), destroy_texture(map, &map->so),
 			destroy_texture(map, &map->we), destroy_texture(map, &map->ea), 0);
+	if (!load_texture(map, &map->n_lit, "./textures/n_lit.xpm"))
+		return (printf("Error\nLoad n_lit failed\n"),
+			destroy_texture(map, &map->no), destroy_texture(map, &map->so),
+			destroy_texture(map, &map->we), destroy_texture(map, &map->ea),
+			destroy_texture(map, &map->ew_off), 0);
 	return (1);
 }

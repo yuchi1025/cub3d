@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 19:30:22 by yucchen           #+#    #+#             */
-/*   Updated: 2026/04/21 21:06:32 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/04/22 14:09:08 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,27 +26,32 @@ static int	load_texture(t_map_info *map, t_texture *tex, char *path)
 	return (1);
 }
 
+static void	destroy_texture(t_map_info *map, t_texture *tex)
+{
+	if (tex->img_ptr)
+	{
+		mlx_destroy_image(map->mlx_ptr, tex->img_ptr);
+		tex->img_ptr = NULL;
+	}
+}
+
 int	init_textures(t_map_info *map)
 {
 	if (!load_texture(map, &map->no, map->no_path))
 		return (printf("Error\nLoad NO failed\n"), 0);
 	if (!load_texture(map, &map->so, map->so_path))
 		return (printf("Error\nLoad SO failed\n"),
-			mlx_destroy_image(map->mlx_ptr, map->no.img_ptr),
-			map->no.img_ptr = NULL, 0);
+			destroy_texture(map, &map->no), 0);
 	if (!load_texture(map, &map->we, map->we_path))
 		return (printf("Error\nLoad WE failed\n"),
-			mlx_destroy_image(map->mlx_ptr, map->no.img_ptr),
-			map->no.img_ptr = NULL,
-			mlx_destroy_image(map->mlx_ptr, map->so.img_ptr),
-			map->so.img_ptr = NULL, 0);
+			destroy_texture(map, &map->no), destroy_texture(map, &map->so), 0);
 	if (!load_texture(map, &map->ea, map->ea_path))
 		return (printf("Error\nLoad EA failed\n"),
-			mlx_destroy_image(map->mlx_ptr, map->no.img_ptr),
-			map->no.img_ptr = NULL,
-			mlx_destroy_image(map->mlx_ptr, map->so.img_ptr),
-			map->so.img_ptr = NULL,
-			mlx_destroy_image(map->mlx_ptr, map->we.img_ptr),
-			map->we.img_ptr = NULL, 0);
+			destroy_texture(map, &map->no), destroy_texture(map, &map->so),
+			destroy_texture(map, &map->we), 0);
+	if (!load_texture(map, &map->close, "./textures/close.xpm"))
+		return (printf("Error\nLoad close failed\n"),
+			destroy_texture(map, &map->no), destroy_texture(map, &map->so),
+			destroy_texture(map, &map->we), destroy_texture(map, &map->ea), 0);
 	return (1);
 }

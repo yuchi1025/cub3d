@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:03:05 by yucchen           #+#    #+#             */
-/*   Updated: 2026/04/21 19:46:22 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/04/22 13:38:43 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,10 @@ typedef struct s_map_info
 	t_texture	so;
 	t_texture	we;
 	t_texture	ea;
+	t_texture	close;
+
+	int			frame_count;
+
 	// Movement flags
 	int			key_w;
 	int			key_a;

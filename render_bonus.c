@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 13:30:11 by yucchen           #+#    #+#             */
-/*   Updated: 2026/04/21 20:54:02 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/04/22 13:37:54 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ int	render_frame(t_map_info *map)
 {
 	t_mini	mini;
 
+	map->frame_count++;
 	move_player(map);
 	render_background(map);
 	cast_rays(map);

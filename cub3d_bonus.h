@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sileow <sileow@student.42singapore.sg>     +#+  +:+       +#+        */
+/*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:03:05 by yucchen           #+#    #+#             */
-/*   Updated: 2026/04/22 17:42:23 by sileow           ###   ########.fr       */
+/*   Updated: 2026/04/23 10:53:31 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,36 +166,36 @@ typedef struct s_ray
 	int			tex_x;
 }				t_ray;
 
-// file_check.c
+// file_check_bonus.c
 int		is_valid_map_file(char *path);
 int		check_file_height(const char *path, t_map_info *map, char **storage);
 int		read_file(const char *path, t_map_info *map, char **storage);
 
-// parsing_config.c
+// parsing_config_bonus.c
 int		check_element(char *line, t_map_info *map);
 
-// parsing_map.c
+// parsing_map_bonus.c
 int		split_config_and_map(t_map_info *map);
 int		store_map_lines(t_map_info *map);
 
-// parsing_utils.c
+// parsing_utils_bonus.c
 int		is_blank_line(char *line);
 int		is_config_line(char *line);
 void	free_split(char **array);
 int		ft_strcmp(const char *s1, const char *s2);
 
-// color_utils.c
+// color_utils_bonus.c
 int		check_commas(char *colors);
 int		is_number_in_range(const char *str);
 int		get_color(int rgb[3]);
 
-// map_validation.c
+// map_validation_bonus.c
 int		contain_open_tile(char *line);
 int		is_valid_element_count(t_map_info *map);
 int		is_open_tile(char c);
 int		check_map(t_map_info *map);
 
-// map_normalization.c
+// map_normalization_bonus.c
 int		compute_map_width(t_map_info *map);
 int		create_map(t_map_info *map);
 void	fill_map(t_map_info *map);
@@ -206,7 +206,7 @@ int		init_window(t_map_info *map);
 int		init_image(t_map_info *map);
 void	start_game(t_map_info *map);
 
-// key_event.c
+// key_event_bonus.c
 int		ft_close(t_map_info *map);
 int		ft_keypress(int keycode, t_map_info *map);
 int		ft_keyrelease(int keycode, t_map_info *map);
@@ -216,21 +216,21 @@ void	ft_mlx_pixel_put(t_map_info *map, int x, int y, int color);
 void	draw_wall_stripe(t_map_info *map, t_ray *ray, int x);
 int		render_frame(t_map_info *map);
 
-// texture.c
+// texture_bonus.c
 int		init_textures(t_map_info *map);
 
-// move_player.c
+// move_player_bonus.c
 void	rotate_player(t_map_info *map, double i);
 void	move_player(t_map_info *map);
 
-// raycaster.c
+// raycaster_bonus.c
 void	cast_rays(t_map_info *map);
 
-// raycaster_utils.c
+// raycaster_utils_bonus.c
 void	calculate_step(t_ray *ray, t_map_info *map);
 void	decide_wall(t_ray *ray, t_map_info *map);
 
-// main.c
+// main_bonus.c
 void	ft_free_array(char **array, int count);
 void	free_map_info(t_map_info *map);
 

@@ -6,7 +6,7 @@
 #    By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/03 10:21:25 by yucchen           #+#    #+#              #
-#    Updated: 2026/04/21 20:59:47 by yucchen          ###   ########.fr        #
+#    Updated: 2026/04/23 12:37:45 by yucchen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,11 +72,12 @@ all: $(NAME)
 $(NAME): $(OBJECTS) $(LIBFT_AR) $(MLX_AR)
 	$(CC) $(CFLAGS) $(OBJECTS) $(LIBFT_AR) $(MLX_AR) $(MLX_FLAGS) -o $(NAME)
 
-# Compile each .c into .o
-%.o: %.c $(HEADERS) 
+# Compile mandatory objects
+$(OBJECTS): %.o: %.c $(HEADERS) 
 	$(CC) $(CFLAGS) -c $< -o $@
 
-%.bonus.o: %.c $(BONUS_HEADERS) 
+# Compile bonus objects
+$(BONUS_OBJECTS): %.o: %.c $(BONUS_HEADERS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # Build libft

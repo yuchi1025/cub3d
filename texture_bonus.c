@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 19:30:22 by yucchen           #+#    #+#             */
-/*   Updated: 2026/05/01 16:18:27 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/05/01 16:32:11 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,29 +37,16 @@ static void	destroy_texture(t_map_info *map, t_texture *tex)
 
 int	init_textures(t_map_info *map)
 {
-	if (!load_texture(map, &map->no, map->no_path))
-		return (printf("Error\nLoad NO failed\n"), 0);
-	if (!load_texture(map, &map->so, map->so_path))
-		return (printf("Error\nLoad SO failed\n"),
-			destroy_texture(map, &map->no), 0);
-	if (!load_texture(map, &map->we, map->we_path))
-		return (printf("Error\nLoad WE failed\n"),
-			destroy_texture(map, &map->no), destroy_texture(map, &map->so), 0);
-	if (!load_texture(map, &map->ea, map->ea_path))
-		return (printf("Error\nLoad EA failed\n"),
-			destroy_texture(map, &map->no), destroy_texture(map, &map->so),
-			destroy_texture(map, &map->we), 0);
-	if (!load_texture(map, &map->ew_off, "./textures/ew_off.xpm"))
-		return (printf("Error\nLoad ew_off failed\n"),
-			destroy_texture(map, &map->no), destroy_texture(map, &map->so),
-			destroy_texture(map, &map->we), destroy_texture(map, &map->ea), 0);
-	if (!load_texture(map, &map->n_lit, "./textures/n_lit.xpm"))
-		return (printf("Error\nLoad n_lit failed\n"),
-			destroy_texture(map, &map->no), destroy_texture(map, &map->so),
-			destroy_texture(map, &map->we), destroy_texture(map, &map->ea),
-			destroy_texture(map, &map->ew_off), 0);
-	if (!load_texture(map, &map->door, "./textures/door.xpm"))
-		return (printf("Error\nLoad close-door failed\n"),
+	load_texture(map, &map->no, map->no_path);
+	load_texture(map, &map->so, map->so_path);
+	load_texture(map, &map->we, map->we_path);
+	load_texture(map, &map->ea, map->ea_path);
+	load_texture(map, &map->ew_off, "./textures/ew_off.xpm");
+	load_texture(map, &map->n_lit, "./textures/n_lit.xpm");
+	load_texture(map, &map->door, "./textures/door.xpm");
+	if (!map->no.addr || !map->so.addr || !map->we.addr || !map->ea.addr
+		|| !map->ew_off.addr || !map->n_lit.addr || !map->door.addr)
+		return (printf("Error\nLoad texture failed\n"),
 			destroy_texture(map, &map->no), destroy_texture(map, &map->so),
 			destroy_texture(map, &map->we), destroy_texture(map, &map->ea),
 			destroy_texture(map, &map->ew_off),

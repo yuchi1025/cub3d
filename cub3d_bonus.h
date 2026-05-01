@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:03:05 by yucchen           #+#    #+#             */
-/*   Updated: 2026/05/01 16:17:07 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/05/01 17:56:08 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # include <X11/keysymdef.h>
 # include <math.h>
 
-# define SCREEN_W 1280
-# define SCREEN_H 720
+# define SCREEN_W 1920
+# define SCREEN_H 1080
 
 # define KEY_ESC 65307
 # define KEY_LEFT 65361
@@ -32,8 +32,10 @@
 # define KEY_S 115 
 # define KEY_D 100 
 
-# define MOVE_SPEED 0.01
+# define MOVE_SPEED 0.03
 # define ROT_SPEED 0.01
+
+# define OPEN_SESAME 1.5
 
 // Minimap settings
 # define MM_X_MAX 360
@@ -41,6 +43,7 @@
 # define MM_WALL 0x6d6b6e	// Light Brown
 # define MM_FLOOR 0xe0dae3	// Beige
 # define MM_SPACE 0x343236	// Dark Brown
+# define MM_DOOR 0xDDAC92 	// Light Orange
 # define MM_PLAYER 0x51b6db	// Teal
 # define MM_DIR 0x2d5bcf	// Blue
 
@@ -165,6 +168,9 @@ typedef struct s_ray
 	t_texture	*current_tex;
 	// The X column of the texture
 	int			tex_x;
+	// Door
+	int			draw_door;
+
 }				t_ray;
 
 // file_check_bonus.c
@@ -230,6 +236,7 @@ void	cast_rays(t_map_info *map);
 // raycaster_utils_bonus.c
 void	calculate_step(t_ray *ray, t_map_info *map);
 void	decide_wall(t_ray *ray, t_map_info *map);
+int		decide_door(t_ray *ray);
 
 // main_bonus.c
 void	ft_free_array(char **array, int count);

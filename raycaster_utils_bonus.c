@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster_utils_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sileow <sileow@student.42singapore.sg>     +#+  +:+       +#+        */
+/*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 17:53:18 by yucchen           #+#    #+#             */
-/*   Updated: 2026/04/22 17:41:09 by sileow           ###   ########.fr       */
+/*   Updated: 2026/05/01 17:36:56 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,9 @@ void	calculate_step(t_ray *ray, t_map_info *map)
 
 void	decide_wall(t_ray *ray, t_map_info *map)
 {
-	if (ray->side == 1)
+	if (ray->draw_door && map->norm_map[ray->map_y][ray->map_x] == 'D')
+		ray->current_tex = &map->door;
+	else if (ray->side == 1)
 	{
 		if (ray->ray_dir_y > 0)
 			ray->current_tex = &map->so;
@@ -59,4 +61,20 @@ void	decide_wall(t_ray *ray, t_map_info *map)
 		else
 			ray->current_tex = &map->we;
 	}
+}
+
+int	decide_door(t_ray *ray)
+{
+	double	door_dist;
+
+	if (ray->side == 0)
+		door_dist = (ray->side_dist_x - ray->delta_dist_x);
+	else
+		door_dist = (ray->side_dist_y - ray->delta_dist_y);
+	if (door_dist > OPEN_SESAME)
+	{
+		ray->draw_door = 1;
+		return (1);
+	}
+	return (0);
 }

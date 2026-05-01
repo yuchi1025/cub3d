@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 13:00:17 by yucchen           #+#    #+#             */
-/*   Updated: 2026/04/21 19:48:17 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/05/01 17:29:16 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static void	draw_square(t_map_info *map, t_mini *mini, int x, int y)
 		color = MM_WALL;
 	else if (map->norm_map[y][x] == ' ')
 		color = MM_SPACE;
+	else if (map->norm_map[y][x] == 'D')
+		color = MM_DOOR;
 	while (i < mini->mm_scale)
 	{
 		j = 0;

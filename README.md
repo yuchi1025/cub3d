@@ -11,18 +11,34 @@ The goal of this project is to create a "realistic" 3D graphical representation 
 
 Built with C and the **miniLibX** graphical library, this project serves as a deep dive into practical applications of mathematics, window management, and event handling.
 
-### Main Flow:
+### Program Aspects:
 1. **Parsing:** Parse and validate the `.cub` file (textures, colors, map closure, single player).
 	- .cub format:
       - NO SO WE EA textures
       - F C colors
       - Closed map with one player (N/S/W/E)
+	  ```markdown
+	  Example .cub file:
+	  NO ./textures/north.xpm
+	  SO ./textures/south.xpm
+	  WE ./textures/west.xpm
+	  EA ./textures/east.xpm
+	  
+	  F 180,190,200
+	  C 90,95,105
+
+	  111111 
+	  100101
+	  101001
+	  1100N1
+	  111111
+
 2. **Initialization:** Set up the player's position, direction vectors, and the camera plane.
-	- The camera plane is always perpendicular (90 degrees) to the direction vector
-		- Two vectors are perpendicular if their dot product is 0
-		- Camera plane's length (0.66) controls the field of view (around 66°) 
-			- `0.66` is not mathematically required
-			- It is just an optimal FOV constant that became the standard in Wolfenstein-style raycasters
+	- The camera plane is always perpendicular (90 degrees) to the direction vector:
+		- Two vectors are perpendicular if their dot product is 0.
+		- Camera plane's length (0.66) controls the field of view (around 66°):
+			- `0.66` is not mathematically required.
+			- It is just an optimal FOV constant that became the standard in Wolfenstein-style raycasters.
 3. **MLX Setup:** Initialize the MiniLibX window, image buffers, and key/render hooks.
 	- `mlx_loop_hook()` registers a function that MLX will call repeatedly while the event loop is running
 		- Difference from `mlx_hook()`:
@@ -35,15 +51,17 @@ Built with C and the **miniLibX** graphical library, this project serves as a de
 		```
 4. **Raycasting:** Utilize the **Digital Differential Analysis (DDA)** to shoot rays, detect wall hits, and project distances to prevent fish-eye distortion.
 5. **Rendering:** Load `.xpm` images and map texture to walls (North/South/West/East)
+	- [Bonus] Display a real-time minimap system to support player navigation.
+	- [Bonus] Add animation to walls.
+	- [Bonus] Show doors as open when player is near; closed when player is at least a set distance away.
 6. **Interaction:** Handle player movement (`W`, `A`, `S`, `D`), camera rotation(Left/Right)
 	- To rotate a vector, multiply with the rotation matrix
 	```bash
 	[ new_x ]   [ cos(a) -sin(a) ] [ x ]
 	[ new_y ] = [ sin(a)  cos(a) ] [ y ]
 	```
-
-TODO:
-7. **Bonus:** Wall collisions detection (Check the `norm_map[(int)y][(int)x]` before updating the position), a minimap system, doors which can open and close, animated sprites, rotate the point of view with the mouse
+	- [Bonus] Wall collisions detection to prevent player from 'entering' wall.
+	- [Bonus] Rotate the point of view with the mouse.
 
 ## Instructions
 
@@ -53,11 +71,18 @@ To compile the mandatory part of the project, simply run:
 make
 ```
 
+To access the full game features including **bonus** features, run:
+```bash
+make bonus
+```
+
 ### Execution
 Run the executable with a valid map file passed as an argument:
 ```bash
 ./cub3D maps/valid/small_N.cub
 ```
+*For bonus features, replace `./cub3D` by `./cub3D_bonus`*.
+
 
 ### Controls
 | Key   | Action              |
@@ -66,8 +91,8 @@ Run the executable with a valid map file passed as an argument:
 | `S`   | Move Backward       |
 | `A`   | Move Left           |
 | `D`   | Move Right          |
-| `<-`  | Rotate Camera Left  |
-| `->`  | Rotate Camera Right |
+| `←`   | Rotate Camera Left  |
+| `→`   | Rotate Camera Right |
 | `ESC` | Exit Game           |
 
 ## Parser Design
@@ -141,11 +166,15 @@ References
 - Make Your Own Raycaster Part 1 (https://www.youtube.com/watch?v=gYRrGTC7GtA)
 
 ### How AI was used
-AI tools were used as a learning aid.
+AI tools were used as a learning aid, for the following concepts:
+- The fundamental concept of DDA.
+- How simplifying delta_dist as the absolute reciprocal of ray direction allows us to directly obtain the perpendicular distance from DDA (instead of Euclidean distance).
+- Distinguishing between MLX functions `mlx_hook` and `mlx_loop_hook`.
+- Generate door textures and animated textures that are consistent with our wall textures (but not used eventually).
 
 ## Notes (Norm, Valgrind)
-- This project follows the 42 Norm rules
-- Memory and file descriptor leaks checked with **Valgrind**
+- This project follows the 42 Norm rules.
+- Memory and file descriptor leaks are checked with **Valgrind**.
 ```bash
 valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes ./cub3D maps/valid/small_N.cub
 ```

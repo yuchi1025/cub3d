@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 09:57:23 by yucchen           #+#    #+#             */
-/*   Updated: 2026/05/01 16:12:36 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/05/01 17:36:35 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,9 @@ static void	perform_dda(t_ray *ray, t_map_info *map)
 			ray->side = 1;
 			ray->side_dist_y += ray->delta_dist_y;
 		}
+		if (map->norm_map[ray->map_y][ray->map_x] == 'D')
+			if (decide_door(ray))
+				break ;
 		if (map->norm_map[ray->map_y][ray->map_x] == '1')
 			ray->hit = 1;
 	}

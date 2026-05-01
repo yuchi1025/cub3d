@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 11:03:05 by yucchen           #+#    #+#             */
-/*   Updated: 2026/04/23 10:53:31 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/05/01 16:17:07 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ typedef struct s_map_info
 	t_texture	ea;
 	t_texture	ew_off;
 	t_texture	n_lit;
+	t_texture	door;
 
 	int			frame_count;
 

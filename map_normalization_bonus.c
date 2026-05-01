@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 14:47:20 by yucchen           #+#    #+#             */
-/*   Updated: 2026/04/21 21:05:12 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/04/25 15:33:40 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "cub3d_bonus.h"
 
 // Step 6 - Compute Map Dimensions
-// Check if the first/last column contains any `0`, `N`, `S`, `W`, `E` -> fail
+// Check if the first/last column contains `0`, `N`, `S`, `W`, `E`, `D` -> fail
 int	compute_map_width(t_map_info *map)
 {
 	int	i;

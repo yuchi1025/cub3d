@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 14:33:12 by yucchen           #+#    #+#             */
-/*   Updated: 2026/04/21 21:05:21 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/04/25 15:28:39 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	contain_open_tile(char *line)
 	while (line[i])
 	{
 		if (line[i] == '0' || line[i] == 'N' || line[i] == 'S'
-			|| line[i] == 'W' || line[i] == 'E')
+			|| line[i] == 'W' || line[i] == 'E' || line[i] == 'D')
 			return (1);
 		i++;
 	}
@@ -47,7 +47,7 @@ int	is_valid_element_count(t_map_info *map)
 
 int	is_open_tile(char c)
 {
-	if (c == '0' || c == 'N' || c == 'S' || c == 'W' || c == 'E')
+	if (c == '0' || c == 'N' || c == 'S' || c == 'W' || c == 'E' || c == 'D')
 		return (1);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sileow <sileow@student.42singapore.sg>     +#+  +:+       +#+        */
+/*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 09:57:23 by yucchen           #+#    #+#             */
-/*   Updated: 2026/04/22 17:41:41 by sileow           ###   ########.fr       */
+/*   Updated: 2026/05/01 16:12:36 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,8 @@ static void	calculate_texture_x(t_ray *ray, t_map_info *map)
 	wall_x -= floor(wall_x);
 	decide_wall(ray, map);
 	ray->tex_x = (int)(wall_x * (double)ray->current_tex->width);
-	if ((ray->side == 0 && ray->ray_dir_x > 0)
-		|| (ray->side == 1 && ray->ray_dir_y < 0))
+	if ((ray->side == 0 && ray->ray_dir_x < 0)
+		|| (ray->side == 1 && ray->ray_dir_y > 0))
 		ray->tex_x = ray->current_tex->width - ray->tex_x - 1;
 }
 

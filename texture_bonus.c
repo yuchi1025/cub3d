@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sileow <sileow@student.42singapore.sg>     +#+  +:+       +#+        */
+/*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 19:30:22 by yucchen           #+#    #+#             */
-/*   Updated: 2026/04/22 17:00:16 by sileow           ###   ########.fr       */
+/*   Updated: 2026/05/01 16:18:27 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,11 @@ int	init_textures(t_map_info *map)
 			destroy_texture(map, &map->no), destroy_texture(map, &map->so),
 			destroy_texture(map, &map->we), destroy_texture(map, &map->ea),
 			destroy_texture(map, &map->ew_off), 0);
+	if (!load_texture(map, &map->door, "./textures/door.xpm"))
+		return (printf("Error\nLoad close-door failed\n"),
+			destroy_texture(map, &map->no), destroy_texture(map, &map->so),
+			destroy_texture(map, &map->we), destroy_texture(map, &map->ea),
+			destroy_texture(map, &map->ew_off),
+			destroy_texture(map, &map->n_lit), 0);
 	return (1);
 }

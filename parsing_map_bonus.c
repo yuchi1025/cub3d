@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 13:47:16 by yucchen           #+#    #+#             */
-/*   Updated: 2026/04/21 21:05:48 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/04/25 15:32:32 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 static int	is_map_char(char c)
 {
 	if (c == ' ' || c == '0' || c == '1' || c == 'N'
-		|| c == 'S' || c == 'W' || c == 'E')
+		|| c == 'S' || c == 'W' || c == 'E' || c == 'D')
 		return (1);
 	return (0);
 }
@@ -35,7 +35,7 @@ static int	is_map_line(char *line)
 	return (1);
 }
 
-// Check if the top row contains any `0`, `N`, `S`, `W`, `E` -> fail
+// Check if the top row contains any `0`, `N`, `S`, `W`, `E`, `D` -> fail
 static int	handle_config_mode(char *line, t_map_info *map, int i, int *in_map)
 {
 	if (is_blank_line(line))
@@ -85,7 +85,7 @@ int	split_config_and_map(t_map_info *map)
 }
 
 // Step 5 - Collect Map Lines
-// Check if the bottom row contains any `0`, `N`, `S`, `W`, `E` -> fail
+// Check if the bottom row contains any `0`, `N`, `S`, `W`, `E`, `D` -> fail
 int	store_map_lines(t_map_info *map)
 {
 	int	i;

@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 14:54:10 by yucchen           #+#    #+#             */
-/*   Updated: 2026/04/21 21:04:49 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/05/03 14:02:23 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,13 @@ int	ft_close(t_map_info *map)
 {
 	if (map)
 	{
-		if (map->no.img_ptr)
-			mlx_destroy_image(map->mlx_ptr, map->no.img_ptr);
-		if (map->so.img_ptr)
-			mlx_destroy_image(map->mlx_ptr, map->so.img_ptr);
-		if (map->we.img_ptr)
-			mlx_destroy_image(map->mlx_ptr, map->we.img_ptr);
-		if (map->ea.img_ptr)
-			mlx_destroy_image(map->mlx_ptr, map->ea.img_ptr);
+		mlx_destroy_image(map->mlx_ptr, map->no.img_ptr);
+		mlx_destroy_image(map->mlx_ptr, map->so.img_ptr);
+		mlx_destroy_image(map->mlx_ptr, map->we.img_ptr);
+		mlx_destroy_image(map->mlx_ptr, map->ea.img_ptr);
+		mlx_destroy_image(map->mlx_ptr, map->ew_off.img_ptr);
+		mlx_destroy_image(map->mlx_ptr, map->n_lit.img_ptr);
+		mlx_destroy_image(map->mlx_ptr, map->door.img_ptr);
 		if (map->img.img_ptr)
 			mlx_destroy_image(map->mlx_ptr, map->img.img_ptr);
 		if (map->window_ptr)

@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 14:25:09 by yucchen           #+#    #+#             */
-/*   Updated: 2026/04/21 21:04:25 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/05/03 12:43:05 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ int	is_number_in_range(const char *str)
 	if (str[i] == '\0')
 		return (0);
 	if (str[i] == '+' || str[i] == '-')
-		return (0);
+		return (printf("Error\nNo sign allowed\n"), 0);
 	while (str[i])
 	{
 		if (str[i] < '0' || str[i] > '9')
-			return (printf("Error\nIt's not a number\n"), 0);
+			return (printf("Error\nIt's not an integer\n"), 0);
 		acc = acc * 10 + (str[i] - '0');
 		if (acc < 0 || acc > 255)
 			return (printf("Error\nColor out of range\n"), 0);

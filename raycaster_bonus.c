@@ -6,7 +6,7 @@
 /*   By: yucchen <yucchen@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 09:57:23 by yucchen           #+#    #+#             */
-/*   Updated: 2026/05/01 17:36:35 by yucchen          ###   ########.fr       */
+/*   Updated: 2026/05/03 13:33:00 by yucchen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static void	init_ray(t_ray *ray, t_map_info *map, int x)
 	ray->delta_dist_x = fabs(1.0 / ray->ray_dir_x);
 	ray->delta_dist_y = fabs(1.0 / ray->ray_dir_y);
 	ray->hit = 0;
+	ray->draw_door = 0;
 	calculate_step(ray, map);
 }
 

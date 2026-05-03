@@ -171,6 +171,7 @@ AI tools were used as a learning aid, for the following concepts:
 - How simplifying delta_dist as the absolute reciprocal of ray direction allows us to directly obtain the perpendicular distance from DDA (instead of Euclidean distance).
 - Distinguishing between MLX functions `mlx_hook` and `mlx_loop_hook`.
 - Generate door textures and animated textures that are consistent with our wall textures (but not used eventually).
+- Debug memory leak issues.
 
 ## Notes (Norm, Valgrind)
 - This project follows the 42 Norm rules.
